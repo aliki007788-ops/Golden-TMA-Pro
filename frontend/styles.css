@@ -1,0 +1,173 @@
+﻿/* تم کلی مشکی-طلایی سینمایی */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: #0a0a0a;
+  color: #e0e0e0;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 50%, #1a1a1a, #000);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4rem;
+  color: #ffd700;
+  text-shadow: 0 0 20px #ffd70080;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #aaa;
+  font-size: 1.3rem;
+  margin-bottom: 40px;
+}
+
+/* تب‌های سطوح */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  background: #1a1a1a;
+  color: #ffd700;
+  border: 2px solid #ffd70040;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab:hover, .tab.active {
+  background: #ffd700;
+  color: #000;
+  box-shadow: 0 0 25px #ffd70080;
+}
+
+.admin-tab {
+  background: #2a0000;
+  border-color: #ff4d4d;
+  color: #ff4d4d;
+}
+
+.admin-tab:hover {
+  background: #ff4d4d;
+  color: #000;
+}
+
+/* پنل ادمین */
+.admin-panel {
+  background: rgba(10,10,10,0.9);
+  border: 2px solid #ffd700;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 0 40px #ffd70040;
+}
+
+.hidden {
+  display: none;
+}
+
+/* کارت ابزارها */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.tool-card {
+  background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
+  border: 1px solid #ffd70040;
+  border-radius: 20px;
+  padding: 30px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.tool-card:hover::before {
+  opacity: 1;
+}
+
+.tool-card:hover {
+  transform: translateY(-12px);
+  border-color: #ffd700;
+  box-shadow: 0 20px 60px rgba(255,215,0,0.3);
+}
+
+.tool-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: #ffd700;
+  margin: 0 0 12px;
+  font-size: 1.6rem;
+  text-shadow: 0 0 10px #ffd70080;
+}
+
+.tool-card p {
+  color: #bbb;
+  margin: 8px 0;
+}
+
+.price {
+  color: #ffd700;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 15px 0;
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+  background: linear-gradient(90deg, #ffd700, #ffea80);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px #ffd70080;
+}

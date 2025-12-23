@@ -1,0 +1,32 @@
+﻿# TMA Toolkit Pro ⛏️
+
+**TMA Toolkit Pro** یک Mini App تلگرام فوق حرفه‌ای برای فروش ابزارها و قالب‌های آماده ساخت **Telegram Mini Apps** (TMA) است.
+
+با پرداخت **Telegram Stars** می‌تونی به بیش از **۵۹ ابزار حرفه‌ای** دسترسی داشته باشی:
+- قالب‌های React, Next.js, Vue, Solid, Vanilla JS
+- UI Kitها (TelegramUI, Mark42)
+- سیستم پرداخت Stars
+- بازی‌های Tap-to-Earn
+- پروژه‌های کامل (ChessNowBot, TeleOTP, MemoCard, Telebook و ...)
+
+### ویژگی‌های کلیدی
+- تم سینمایی مشکی-طلایی با ذرات نورانی معلق
+- ۳ سطح قیمتی: Basic (99-299 ⭐), Pro (399-699 ⭐), Premium (799-1499 ⭐)
+- پنل ادمین داخل بات برای مدیریت ابزارها (جابجایی سطح، فعال/غیرفعال، تغییر قیمت)
+- پشتیبانی کامل فارسی و انگلیسی
+- پرداخت امن با Telegram Stars
+
+### ساختار پروژه
+tma-toolkit-pro/
+├── frontend/              # Mini App (صفحه وب)
+│   ├── index.html
+│   ├── styles.css
+│   └── main.js
+├── backend/               # بات + سرور
+│   ├── bot.js
+│   ├── server.js
+│   ├── data.json
+│   └── package.json
+├── tools/                 # ۵۹ فولدر ابزار (zipها)
+├── .gitignore
+└── README.md

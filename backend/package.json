@@ -1,0 +1,18 @@
+﻿{
+  "name": "tma-toolkit-backend",
+  "version": "1.0.0",
+  "description": "Backend for TMA Toolkit Pro (Bot + Server)",
+  "main": "bot.js",
+  "scripts": {
+    "start-bot": "node bot.js",
+    "start-server": "node server.js",
+    "dev": "concurrently \"npm run start-bot\" \"npm run start-server\""
+  },
+  "dependencies": {
+    "grammy": "^1.28.0",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

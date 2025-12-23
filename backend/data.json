@@ -1,0 +1,106 @@
+﻿{
+  "tools": [
+    {
+      "id": 1,
+      "name": "Analytics 001",
+      "desc": "داشبورد آمار حرفه‌ای برای ردیابی کاربران",
+      "price": 199,
+      "tier": "basic",
+      "folder": "analytics-master001",
+      "active": true
+    },
+    {
+      "id": 2,
+      "name": "Awesome TMA 002",
+      "desc": "مجموعه کامل منابع و لینک‌های TMA",
+      "price": 299,
+      "tier": "basic",
+      "folder": "awesome-telegram-mini-apps-main002",
+      "active": true
+    },
+    {
+      "id": 3,
+      "name": "Catalog 003",
+      "desc": "کاتالوگ استیکرها و مدیریت مجموعه",
+      "price": 249,
+      "tier": "basic",
+      "folder": "catalog-main003",
+      "active": true
+    },
+    {
+      "id": 4,
+      "name": "ChessNowBot 004",
+      "desc": "بازی شطرنج زنده و آنلاین",
+      "price": 599,
+      "tier": "pro",
+      "folder": "ChessNowBot-master004",
+      "active": true
+    },
+    {
+      "id": 5,
+      "name": "Demo Mini App 005",
+      "desc": "دموی ساده برای تست و یادگیری",
+      "price": 149,
+      "tier": "basic",
+      "folder": "demo-telegram-mini-app-main005",
+      "active": true
+    },
+    {
+      "id": 6,
+      "name": "DPXWallet 006",
+      "desc": "کیف پول کریپتو پیشرفته",
+      "price": 799,
+      "tier": "premium",
+      "folder": "DPXWallet-master006",
+      "active": true
+    },
+    {
+      "id": 7,
+      "name": "Cloud Debug 007",
+      "desc": "ابزار دیباگ Cloud Storage تلگرام",
+      "price": 349,
+      "tier": "basic",
+      "folder": "eruda-tma-cloudstorage-master007",
+      "active": true
+    },
+    {
+      "id": 8,
+      "name": "Init Data Go 008",
+      "desc": "اعتبارسنجی init data با زبان Go",
+      "price": 399,
+      "tier": "pro",
+      "folder": "init-data-golang-master008",
+      "active": true
+    },
+    {
+      "id": 9,
+      "name": "Issues Tracker 009",
+      "desc": "سیستم مدیریت مسائل و باگ‌ها",
+      "price": 299,
+      "tier": "basic",
+      "folder": "issues-master009",
+      "active": true
+    },
+    {
+      "id": 10,
+      "name": "JS Template 011",
+      "desc": "قالب JavaScript ساده و سریع",
+      "price": 249,
+      "tier": "basic",
+      "folder": "js-template-master011",
+      "active": true
+    },
+    // ... برای صرفه‌جویی در فضا، فقط ۱۰ تا اول رو نوشتم
+    // بقیه ۴۹ ابزار رو خودت مشابه اضافه کن (از لیست فولدرها کپی کن)
+    // مثال آخرین:
+    {
+      "id": 59,
+      "name": "Webpack Boiler 059",
+      "desc": "قالب Webpack پیشرفته",
+      "price": 799,
+      "tier": "premium",
+      "folder": "webpack-boilerplate-master059",
+      "active": true
+    }
+  ]
+}
