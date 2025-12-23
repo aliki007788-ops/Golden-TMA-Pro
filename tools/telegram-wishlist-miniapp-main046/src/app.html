@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Wishlist</title>
+		<script src="https://telegram.org/js/telegram-web-app.js"></script>
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<script>
+			function base64encode(str) {
+				let encode = encodeURIComponent(str).replace(/%([a-f0-9]{2})/gi, (m, $1) => String.fromCharCode(parseInt($1, 16)))
+				return btoa(encode)
+			}
+
+			let tg = window.Telegram.WebApp.initData;
+			tg = base64encode(tg)
+			document.cookie = "tg_init_data="+tg;
+			Telegram.WebApp.setHeaderColor('bg_color');
+
+			window.Telegram.WebApp.expand();
+		</script>
+
+		<style>
+			*, *::after, *::before{
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				font-family: ui-rounded, sans-serif;
+				-webkit-tap-highlight-color: transparent;
+			}
+			body {
+				background-color: var(--tg-theme-bg-color);
+				color: var(--tg-theme-text-color);
+			}
+			section {
+    			padding: 0 20px 20px 20px;
+   			 	background-color: var(--tg-theme-bg-color);
+ 			}
+			a, a:active, a:visited, a:hover, a:focus {
+				text-decoration: none;
+				color: var(--tg-theme-link-color);
+			}
+			button {
+    			min-width: 40px;
+    			min-height: 40px;
+    			border: none;
+				transition: color .2s;
+  			}
+			button:active{
+				color: var(--tg-theme-link-color);
+			}
+			h1 {
+				margin-top: .3rem;
+			    font-size: 20px;
+				word-break: break-word;
+   			}
+  			h2 {
+  				font-size: 20px;
+				word-break: break-word;
+  			}
+  			p {
+				word-break: break-word;
+  			    color: var(--tg-theme-hint-color);
+  			}
+			.img {
+    			position: relative;
+   				min-width: 55px;
+   				height: 55px;
+    			border-radius: 50%;
+    			overflow: hidden;
+  			}
+  			.img > img {
+    			position: absolute;
+    			top: 0;
+    			left: 0;
+    			min-width: 100%;
+    			height: 100%;
+  			}
+			.no-fill-button {
+    			background-color: var(--tg-theme-bg-color);
+				transition: color .2s;
+  			}
+			.no-fill-button path {
+    			fill: var(--tg-theme-button-color);
+				transition: fill .2s;
+ 			}
+			.no-fill-button:active path {
+    			fill: var(--tg-theme-link-color);
+  			}
+			.no-fill-button:active {
+    			color: var(--tg-theme-link-color);
+  			}
+			.img path {
+   				fill: var(--tg-theme-hint-color);
+ 			}
+			.border-button path {
+   				fill: var(--tg-theme-button-color);
+			}
+			.border-button svg {
+   				width: 16px;
+				height: 16px;
+			}
+			.disabled-btn-color path {
+				fill: var(--tg-theme-hint-color);
+			}
+			.disabled-btn-color:active path {
+				fill: var(--tg-theme-hint-color);
+			}
+			.action-button {
+				background-color: var(--tg-theme-button-color);
+				color: var(--tg-theme-button-text-color);
+				border-radius: 50%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.chevron-item {
+				color: var(--tg-theme-hint-color);
+				fill: var(--tg-theme-hint-color);
+			}
+			.hint-text {
+				color: var(--tg-theme-hint-color);
+			}
+    		.share-section {
+				display: flex;
+    			justify-content: end;
+    			gap: 0.5rem;
+    			background-color: var(--tg-theme-secondary-bg-color);
+    			padding: 8px 8px;
+			}
+			.wrap{
+				flex-wrap: wrap;
+			}
+			.share-section > button {
+				border-radius: 8px;
+				flex: 1 1 auto;
+				padding: 16px 0;
+				min-width: 100px;
+			}
+			.btn-text {
+				font-family: ui-rounded, sans-serif;
+				font-weight: 600;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 4px;
+				color: var(--tg-theme-button-color);
+			}
+			.btn-text.disabled {
+				color: var(--tg-theme-hint-color);
+			}
+			.btn-text.disabled path {
+				fill: var(--tg-theme-hint-color);
+			}
+			.custom-loader {
+				display: inline-block;
+				width:25px;
+				height:25px;
+				border-radius:50%;
+				background:conic-gradient(#00000000 20%,var(--tg-theme-button-color));
+				mask: radial-gradient(farthest-side,#0000 calc(100% - 5px),#000 0);
+				-webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 5px),#000 0);
+				animation:s3 1s infinite linear;
+			}
+			@keyframes s3 {to{transform: rotate(1turn)}}
+			input,
+			textarea {
+			    width: 100%;
+				background-color: var(--tg-theme-secondary-bg-color);
+			    padding: 0.5em 0.8em;
+				outline: none;
+				border: 1px solid var(--tg-theme-secondary-bg-color);
+			    border-radius: 8px;
+			    font-size: 1rem;
+				color: var(--tg-theme-text-color);
+			}
+			input::placeholder,
+			textarea::placeholder {
+				color: var(--tg-theme-hint-color)
+			}
+			textarea{
+				resize: none;
+    			min-height: 4.2em;
+			}
+			input:focus, textarea:focus{
+				outline: none;
+				border: 1px solid var(--tg-theme-link-color);
+			}
+			input:invalid {
+				border: 1px solid rgba(255, 0, 0, 0.5);
+			}
+		</style>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
