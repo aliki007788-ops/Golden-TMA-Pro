@@ -1,0 +1,88 @@
+{% extends "admin-base.html" %}
+
+{% from "macros.html" import service_status, bot_actions, route_row %}
+
+{% block content %}
+{% if bot.is_running %}
+    <h1>@{{ bot.telegram_me.username }}</h1>
+{% else %}
+    <h1>@{{ bot.name }}</h1>
+{% endif %}
+
+<table class="table">
+{% if bot.is_running %}
+    <tr><th>Name</th><td>{{ bot.telegram_me.first_name }}</td></tr>
+    <tr><th>Icon</th><td><img src="{{ url("bot_picture", name=bot.name) }}" class="profile-pic"/></td></tr>
+    <tr><th>Username</th><td><a href="{{ bot.telegram_link }}">@{{ bot.telegram_me.username }}</a></td></tr>
+{% endif %}
+{% if show_token %}
+    <tr><th>Token</th><td style="font-size: small">{{ bot.token }}</td></tr>
+{% endif %}
+    <tr><th>Service</th><td>{{ bot.name }}</td></tr>
+    <tr><th>Class</th><td><pre><code>{{ bot.__class__.__module__ }}.{{ bot.__class__.__name__ }}</code></pre></td></tr>
+    <tr><th>Status</th><td><div style="width: 1ch">{{ service_status(bot.status, True, "", bot.flood_left()) }}</div></td></tr>
+
+    <tr><th>Actions</th><td>
+        <ul class="buttons">
+            {{ bot_actions(bot) }}
+        </ul>
+    </td></tr>
+</table>
+
+{% if bot.info %}
+<h2>Info</h2>
+
+<table class="table">
+    {% for name, value in info.items() %}
+        <tr><th>{{ name }}</th><td>
+            {% if value.__class__.__name__ == "list" or value.__class__.__name__ == "set" %}
+                <ul>
+                {% for item in value %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                {{ value }}
+            {% endif %}
+        </td></tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% if "http" in bot.consumes() and hasattr(bot, "route_info") %}
+<h2>Routes</h2>
+<table class="table">
+    <thead>
+        <tr><th>URL</th><th>Name</th><th>Handler</th></tr>
+    </thead>
+    <tbody>
+        {% for route in bot.route_info() %}
+            {{ route_row(bot.http.base_url, route) }}
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<h2>Commands</h2>
+{% if not commands %}
+    <p>No commands set</p>
+{% else %}
+    <table class="table">
+    {% for command in commands %}
+        <tr><th>/{{ command.command }}</th><td>{{ command.description }}</td></tr>
+    {% endfor %}
+    </table>
+{% endif %}
+
+<h2>Exceptions</h2>
+{% if bot.exception_log %}
+    <pre><code>{{ bot.exception_log }}</code></pre>
+
+    <ul class="buttons">
+        <li><a href="{{ url("bot_clear_exceptions", name=bot.name) }}">Clear Exception Log</a></li>
+    </ul>
+{% else %}
+    <p>No exceptions logged</p>
+{% endif %}
+
+{% endblock %}

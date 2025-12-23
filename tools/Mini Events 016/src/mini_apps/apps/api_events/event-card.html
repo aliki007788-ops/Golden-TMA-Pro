@@ -1,0 +1,47 @@
+
+{% block event %}
+    {% if event.visible %}
+        <article class="event {% if event.cancelled %}cancelled{% endif %}" id="event-{{ event.id }}">
+            <header>{{ event.title }}</header>
+            <section>
+                {% if event.image %}
+                    <img src="{{ event.image }}" alt="{{ event.title }}" />
+                {% endif %}
+                {% if event.description %}
+                    <div class="description">{{ event.description }}</div>
+                {% endif %}
+                <table>
+                    <tr>
+                        <th>Starts at</th>
+                        {% if event.duration >= 60 * 24 %}
+                            <td>{{ event.start.strftime("%H:%M %a %d") }}</td>
+                        {% else %}
+                            <td>{{ event.start.strftime("%H:%M") }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th>Ends at</th>
+                        {% if event.duration >= 60 * 24 %}
+                            <td>{{ event.finish.strftime("%H:%M %a %d") }}</td>
+                        {% else %}
+                            <td>{{ event.finish.strftime("%H:%M") }}</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <th>Duration</th>
+                        <td>{{ minutes(event.duration) }}
+                    </tr>
+                    <tr>
+                        <th>Location</th>
+                        <td>{{ event.location }}
+                    </tr>
+                </table>
+                <p class="buttons">
+                    <button onclick='window.Telegram.WebApp.switchInlineQuery("event:{{ event.id }}", ["users", "groups", "channels"])'>
+                        <i class="fa-solid fa-paper-plane"></i> Share
+                    </button>
+                </p>
+            </section>
+        </article>
+    {% endif %}
+{% endblock %}

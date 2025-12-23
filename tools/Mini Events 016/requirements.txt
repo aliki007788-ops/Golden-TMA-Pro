@@ -1,0 +1,26 @@
+# Telegram integration
+telethon
+
+# HTTP server
+aiohttp
+aiohttp-session
+
+# PyPI
+twine
+
+# Web controller
+aiohttp-jinja2
+
+# Mini Events
+aiocron
+peewee
+
+# Tic Tac Toe
+hashids
+
+# misc
+json-five
+
+# Utils
+Pillow
+lottie
