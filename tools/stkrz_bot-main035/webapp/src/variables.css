@@ -1,0 +1,22 @@
+
+:root {
+  --color-background: var(--tg-theme-secondary-bg-color, #131415);
+  --color-background-secondary: var(--tg-theme-bg-color, #1A222C);
+  --color-text: var(--tg-theme-text-color, white);
+  --color-text-secondary: var(--tg-theme-hint-color, #B4C2D3);
+  --color-accent: var(--tg-theme-button-color, #55A4F8);
+  --color-link: var(--tg-theme-link-color, rgb(67, 123, 208));
+
+  --font-size-default: 15px;
+
+  --border-radius: 10px;
+  --margin-x: 17px;
+  --margin-y: 17px;
+}
+
+
+[platform="android"], [platform="android_x"] {
+  --border-radius: 0;
+  --margin-x: 0;
+  --margin-y: 10px;
+}

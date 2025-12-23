@@ -1,0 +1,40 @@
+@import "variables.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--color-text);
+  background-color: var(--color-background-secondary);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+[platform="android"], [platform="android_x"] {
+  font-family: 'Roboto', sans-serif;
+}
+
+
+body {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  padding: 0;
+  border: none;
+}
+
+input {
+  font-family: inherit;
+}

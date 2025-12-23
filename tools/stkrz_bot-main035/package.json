@@ -1,0 +1,15 @@
+{
+  "name": "stkrz_bot",
+  "version": "0.0.0",
+  "main": "index.js",
+  "author": "Tatiana Fomina",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "install_deps": "cd server && yarn install && cd ../webapp && yarn install",
+    "build_webapp": "cd webapp && yarn build && cd ..",
+    "build_server": "cd server && yarn build && cd ..",
+    "start_server": "cd server && node build/index.js",
+    "prod": "yarn install_deps && yarn build_webapp && yarn build_server && yarn start_server"
+  }
+}
