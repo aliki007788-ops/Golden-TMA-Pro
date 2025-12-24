@@ -1,25 +1,28 @@
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
 
-// ذرات طلایی سینمایی – فعال و سریع
+// افکت ذرات طلایی
 particlesJS('particles-js', {
-  particles: {
-    number: { value: 100, density: { enable: true, value_area: 800 } },
-    color: { value: '#FFD700' },
-    shape: { type: 'circle' },
-    opacity: { value: 0.7, random: true },
-    size: { value: 4, random: true },
-    line_linked: { enable: true, distance: 150, color: '#FFD700', opacity: 0.3, width: 1 },
-    move: { enable: true, speed: 2 }
-  },
-  interactivity: {
-    events: { onhover: { enable: true, mode: 'repulse' } },
-    modes: { repulse: { distance: 100 } }
-  },
+  particles: { /* تنظیمات قبلی */ },
+  interactivity: { /* تنظیمات قبلی */ },
   retina_detect: true
 });
 
-// تمام ۴۹ ابزار – دقیق از لیست GitHub شما (نام، توضیح، قیمت، سطح، فولدر، تصاویر placeholder)
+/* 
+===========================================
+📌 اینجا ابزارها رو اضافه کن
+هر ابزار یک آبجکت داخل آرایه toolsData است:
+{
+  id: عدد یکتا,
+  name: "نام ابزار",
+  desc: "توضیحات کامل ابزار",
+  price: عدد قیمت به Stars,
+  tier: "basic" یا "pro" یا "premium",
+  folder: "نام فولدر ابزار در پوشه tools",
+  images: ["لینک یا مسیر تصاویر ابزار"]
+}
+===========================================
+*/
 const toolsData = [
   { id: 1, name: "Analytics 001", desc: "Professional real-time analytics dashboard with advanced charts and user tracking.", price: 199, tier: "basic", folder: "Analytics 001", images: [
     "https://via.placeholder.com/800x600/000000/FFD700?text=Analytics+Dashboard+1",
@@ -310,84 +313,55 @@ const toolsData = [
     "https://via.placeholder.com/800x600/000000/FFD700?text=Optimization"
   ] }
 ];
-let currentTier = 'basic';
-// صفحه اصلی
-if (document.getElementById('toolsList')) {
-  document.querySelectorAll('.tier-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tier-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      showTier(btn.dataset.tier);
-    });
+
+/* نمایش ابزارها بر اساس tier */
+function showTier(tier) {
+  const filtered = toolsData.filter(t => t.tier === tier);
+  const list = document.getElementById('toolsList');
+  list.innerHTML = '';
+  filtered.forEach(tool => {
+    const card = document.createElement('div');
+    card.className = 'tool-card';
+    card.innerHTML = `
+      <h3>${tool.name}</h3>
+      <p>${tool.desc}</p>
+      <p>${tool.price} Stars</p>
+      <button onclick="window.location.href='tool.html?id=${tool.id}'">View & Buy</button>
+    `;
+    list.appendChild(card);
   });
-
-  function showTier(tier) {
-    currentTier = tier;
-    const filtered = toolsData.filter(t => t.tier === tier);
-    const list = document.getElementById('toolsList');
-    list.innerHTML = '';
-
-    filtered.forEach(tool => {
-      const card = document.createElement('div');
-      card.className = 'tool-card';
-
-      let imagesHtml = '';
-      tool.images.forEach(img => {
-        imagesHtml += `<img src="${img}" class="preview-img" onerror="this.src='https://via.placeholder.com/400x300/333333/FFD700?text=Image+Loading...'">`;
-      });
-
-      card.innerHTML = `
-        <div class="preview-grid">${imagesHtml}</div>
-        <h3>${tool.id}. ${tool.name}</h3>
-        <p>${tool.desc.substring(0, 150)}...</p>
-        <p class="price">${tool.price} Stars</p>
-        <button onclick="window.location.href='tool.html?id=${tool.id}'">مشاهده جزئیات و خرید</button>
-      `;
-      list.appendChild(card);
-    });
-  }
-
-  showTier('basic');
 }
+document.querySelectorAll('.tier-btn').forEach(btn => {
+  btn.addEventListener('click', () => showTier(btn.dataset.tier));
+});
+showTier('basic');
 
-// صفحه جزئیات ابزار – پرداخت واقعی
+/* صفحه جزئیات ابزار */
 function loadToolDetail(id) {
   const tool = toolsData.find(t => t.id === id);
-  if (!tool) {
-    document.body.innerHTML = '<h1 style="text-align:center;color:#FFD700;margin-top:100px;">ابزار یافت نشد</h1>';
-    return;
-  }
-
+  if (!tool) return;
   document.getElementById('toolName').textContent = tool.name;
   document.getElementById('toolDesc').textContent = tool.desc;
   document.getElementById('toolPrice').textContent = `${tool.price} Stars`;
 
   const imagesContainer = document.getElementById('toolImages');
-  imagesContainer.innerHTML = '';
   tool.images.forEach(img => {
-    const imgElement = document.createElement('img');
-    imgElement.src = img;
-    imgElement.alt = tool.name;
-    imgElement.onerror = () => imgElement.src = 'https://via.placeholder.com/800x600/333333/FFD700?text=Image+Not+Available';
-    imagesContainer.appendChild(imgElement);
+    const el = document.createElement('img');
+    el.src = img;
+    imagesContainer.appendChild(el);
   });
 
-  const payBtn = document.getElementById('payBtn');
-  payBtn.onclick = () => initiateStarsPayment(tool.id, tool.price);
+  document.getElementById('payBtn').onclick = () => initiateStarsPayment(tool.id, tool.price, tool.folder);
 }
 
-// پرداخت واقعی با Telegram Stars (با slug لینک از بات)
-async function initiateStarsPayment(id, price) {
-  const tool = toolsData.find(t => t.id === id);
-
-  // درخواست slug از backend (بات invoice ایجاد می‌کنه و slug برمی‌گردونه)
+/* پرداخت با Stars */
+async function initiateStarsPayment(id, price, folder) {
   try {
     const response = await fetch(`/api/create-invoice`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ toolId: id, price })
     });
-
     const data = await response.json();
     if (data.slug) {
       Telegram.WebApp.openInvoice(data.slug, (status) => {
@@ -395,47 +369,17 @@ async function initiateStarsPayment(id, price) {
           document.getElementById('payBtn').style.display = 'none';
           document.getElementById('downloadBtn').style.display = 'block';
           document.getElementById('paymentStatus').style.display = 'block';
-          document.getElementById('paymentStatus').textContent = 'پرداخت موفق! ابزار آماده دانلود است ✨';
-          Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-        } else {
-          document.getElementById('paymentStatus').style.display = 'block';
-          document.getElementById('paymentStatus').textContent = 'پرداخت لغو یا ناموفق بود.';
+          document.getElementById('paymentStatus').textContent = 'پرداخت موفق! آماده دانلود ✨';
+          document.getElementById('downloadBtn').onclick = () => downloadTool(folder);
         }
       });
-    } else {
-      alert('خطا در ایجاد invoice');
     }
-  } catch (error) {
-    alert('خطا در اتصال به سرور پرداخت');
+  } catch (err) {
+    alert('خطا در پرداخت');
   }
 }
 
-// دانلود ZIP
+/* دانلود ابزار */
 function downloadTool(folder) {
-  const zipUrl = `https://github.com/aliki007788-ops/Golden-TMA-Pro/raw/main/tools/${folder}/${folder}.zip`;
-  window.open(zipUrl, '_blank');
+  window.open(`/api/download/${folder}`, '_blank');
 }
-backend/server.js (برای ایجاد invoice slug)
-JavaScript// اضافه به server.js قبلی
-app.post('/api/create-invoice', async (req, res) => {
-  const { toolId, price } = req.body;
-  const tool = toolsData.find(t => t.id === toolId);
-
-  if (!tool) return res.status(404).json({ error: 'ابزار یافت نشد' });
-
-  try {
-    const invoiceLink = await bot.api.createInvoiceLink({
-      title: tool.name,
-      description: tool.desc,
-      payload: `golden_tool_${toolId}`,
-      provider_token: "",
-      currency: "XTR",
-      prices: [{ label: tool.name, amount: price * 100 }]
-    });
-
-    const slug = invoiceLink.split('/').pop(); // استخراج slug
-    res.json({ slug });
-  } catch (error) {
-    res.status(500).json({ error: 'خطا در ایجاد invoice' });
-  }
-});
