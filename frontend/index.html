@@ -1,24 +1,37 @@
-﻿<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TMA Toolkit Pro - Elite Tools</title>
+  <title>Golden TMA Pro</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Cinzel:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="particles-js"></div>
 
   <div class="container">
-    <h1>TMA Toolkit Pro</h1>
-    <p class="subtitle">ابزارهای حرفه‌ای Mini App تلگرام – پرداخت با استارز</p>
+    <h1>Professional Telegram Mini App Tools</h1>
+    <p class="subtitle">Payment with Stars – Elite Tools for Developers</p>
 
-    <div class="tabs">
-      <button class="tab active" onclick="showTier('basic')">Basic</button>
-      <button class="tab" onclick="showTier('pro')">Pro</button>
-      <button class="tab" onclick="showTier('premium')">Premium</button>
+    <!-- دکمه‌های سطوح با مبلغ + ستاره ۳D فیروزه‌ای چرخان -->
+    <div class="tier-buttons">
+      <button class="tier-btn" onclick="showTier('basic')">
+        <span class="price-text">Basic Tier</span>
+        <span class="price-amount">99-299 ⭐</span>
+        <div class="turquoise-star"></div>
+      </button>
+      <button class="tier-btn" onclick="showTier('pro')">
+        <span class="price-text">Pro Tier</span>
+        <span class="price-amount">399-699 ⭐</span>
+        <div class="turquoise-star"></div>
+      </button>
+      <button class="tier-btn" onclick="showTier('premium')">
+        <span class="price-text">Premium Tier</span>
+        <span class="price-amount">799-1499 ⭐</span>
+        <div class="turquoise-star"></div>
+      </button>
     </div>
 
     <div id="toolsList" class="tools-grid"></div>
