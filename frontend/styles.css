@@ -1,173 +1,155 @@
-﻿/* تم کلی مشکی-طلایی سینمایی */
+/* تم سینمایی مشکی-طلایی نفس‌گیر */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif;
-  background: #0a0a0a;
-  color: #e0e0e0;
+  font-family: 'Cinzel', serif;
+  background: #000000;
+  color: #ffffff;
   overflow-x: hidden;
-  position: relative;
 }
 
 #particles-js {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   z-index: -1;
-  background: radial-gradient(circle at 50% 50%, #1a1a1a, #000);
+  background: linear-gradient(to bottom, #0f0f0f, #000000);
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 60px 20px;
+  text-align: center;
   position: relative;
   z-index: 1;
 }
 
 h1 {
   font-family: 'Orbitron', sans-serif;
-  font-size: 4rem;
-  color: #ffd700;
-  text-shadow: 0 0 20px #ffd70080;
-  text-align: center;
-  margin-bottom: 10px;
+  font-size: 4.5rem;
+  color: #FFD700;
+  text-shadow: 0 0 40px #FFD700, 0 0 80px #FFD70040;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
 }
 
 .subtitle {
-  text-align: center;
-  color: #aaa;
-  font-size: 1.3rem;
-  margin-bottom: 40px;
+  font-size: 1.8rem;
+  color: #aaaaaa;
+  margin-bottom: 60px;
+  letter-spacing: 2px;
 }
 
-/* تب‌های سطوح */
-.tabs {
+/* دکمه‌های سطوح با مبلغ و ستاره ۳D */
+.tier-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 40px;
+  gap: 40px;
+  margin-bottom: 80px;
   flex-wrap: wrap;
 }
 
-.tab {
-  padding: 12px 28px;
-  font-size: 1.1rem;
-  background: #1a1a1a;
-  color: #ffd700;
-  border: 2px solid #ffd70040;
+.tier-btn {
+  position: relative;
+  padding: 30px 60px;
+  font-size: 2rem;
+  background: linear-gradient(145deg, #1a1a1a, #000000);
+  color: #FFD700;
+  border: 3px solid #FFD700;
   border-radius: 30px;
   cursor: pointer;
-  transition: all 0.3s;
+  overflow: hidden;
+  box-shadow: 0 0 50px #FFD70040;
+  transition: all 0.5s ease;
 }
 
-.tab:hover, .tab.active {
-  background: #ffd700;
-  color: #000;
-  box-shadow: 0 0 25px #ffd70080;
+.tier-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 100px #FFD70080;
+  background: linear-gradient(145deg, #FFD700, #b8860b);
+  color: #000000;
 }
 
-.admin-tab {
-  background: #2a0000;
-  border-color: #ff4d4d;
-  color: #ff4d4d;
+.price-text {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 10px;
 }
 
-.admin-tab:hover {
-  background: #ff4d4d;
-  color: #000;
+.price-amount {
+  font-size: 2.2rem;
+  font-weight: bold;
 }
 
-/* پنل ادمین */
-.admin-panel {
-  background: rgba(10,10,10,0.9);
-  border: 2px solid #ffd700;
-  border-radius: 16px;
-  padding: 30px;
-  margin-bottom: 40px;
-  box-shadow: 0 0 40px #ffd70040;
+/* ستاره سه بعدی فیروزه‌ای چرخان حول محور Y */
+.turquoise-star {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #00ffff, #008b8b);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: rotateY 8s infinite linear;
+  box-shadow: 0 0 40px #00ffff80, inset 0 0 20px #00ffff40;
 }
 
-.hidden {
-  display: none;
+@keyframes rotateY {
+  from { transform: translateY(-50%) rotateY(0deg); }
+  to { transform: translateY(-50%) rotateY(360deg); }
 }
 
 /* کارت ابزارها */
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 40px;
 }
 
 .tool-card {
-  background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
-  border: 1px solid #ffd70040;
-  border-radius: 20px;
-  padding: 30px;
-  transition: all 0.4s;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.tool-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.6s;
-}
-
-.tool-card:hover::before {
-  opacity: 1;
+  background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+  border: 2px solid #FFD70040;
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 15px 50px rgba(255,215,0,0.2);
+  transition: all 0.5s;
 }
 
 .tool-card:hover {
-  transform: translateY(-12px);
-  border-color: #ffd700;
-  box-shadow: 0 20px 60px rgba(255,215,0,0.3);
+  transform: translateY(-20px);
+  border-color: #FFD700;
+  box-shadow: 0 30px 80px rgba(255,215,0,0.5);
 }
 
 .tool-card h3 {
-  font-family: 'Orbitron', sans-serif;
-  color: #ffd700;
-  margin: 0 0 12px;
-  font-size: 1.6rem;
-  text-shadow: 0 0 10px #ffd70080;
+  font-size: 2rem;
+  color: #FFD700;
+  margin-bottom: 20px;
 }
 
 .tool-card p {
-  color: #bbb;
-  margin: 8px 0;
-}
-
-.price {
-  color: #ffd700;
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  color: #cccccc;
   margin: 15px 0;
 }
 
-button {
+.tool-card button {
   width: 100%;
-  padding: 16px;
-  font-size: 1.1rem;
-  background: linear-gradient(90deg, #ffd700, #ffea80);
-  color: #000;
+  padding: 20px;
+  font-size: 1.4rem;
+  background: linear-gradient(90deg, #FFD700, #DAA520);
+  color: #000000;
   border: none;
-  border-radius: 12px;
+  border-radius: 20px;
   cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 10px 30px #FFD70060;
   transition: all 0.3s;
-  font-weight: 600;
 }
 
-button:hover {
+.tool-card button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 30px #ffd70080;
+  box-shadow: 0 20px 50px #FFD70080;
 }
