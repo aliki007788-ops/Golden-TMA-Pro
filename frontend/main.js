@@ -1,23 +1,20 @@
-// main.js - Golden TMA Pro - Final Fixed Edition
-// تمام مشکلات حل شد: تصاویر لود می‌شن، متن توصیف کامل، پرداخت واقعی، دانلود پس از پرداخت
-
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
 
-// ذرات طلایی سینمایی – فعال
+// ذرات طلایی سینمایی – فعال و سریع
 particlesJS('particles-js', {
   particles: {
-    number: { value: 120, density: { enable: true, value_area: 800 } },
+    number: { value: 100, density: { enable: true, value_area: 800 } },
     color: { value: '#FFD700' },
     shape: { type: 'circle' },
-    opacity: { value: 0.8, random: true },
+    opacity: { value: 0.7, random: true },
     size: { value: 4, random: true },
     line_linked: { enable: true, distance: 150, color: '#FFD700', opacity: 0.3, width: 1 },
-    move: { enable: true, speed: 3 }
+    move: { enable: true, speed: 2 }
   },
   interactivity: {
     events: { onhover: { enable: true, mode: 'repulse' } },
-    modes: { repulse: { distance: 150 } }
+    modes: { repulse: { distance: 100 } }
   },
   retina_detect: true
 });
@@ -314,7 +311,6 @@ const toolsData = [
   ] }
 ];
 let currentTier = 'basic';
-
 // صفحه اصلی
 if (document.getElementById('toolsList')) {
   document.querySelectorAll('.tier-btn').forEach(btn => {
@@ -337,7 +333,7 @@ if (document.getElementById('toolsList')) {
 
       let imagesHtml = '';
       tool.images.forEach(img => {
-        imagesHtml += `<img src="${img}" class="preview-img" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">`;
+        imagesHtml += `<img src="${img}" class="preview-img" onerror="this.src='https://via.placeholder.com/400x300/333333/FFD700?text=Image+Loading...'">`;
       });
 
       card.innerHTML = `
@@ -345,7 +341,7 @@ if (document.getElementById('toolsList')) {
         <h3>${tool.id}. ${tool.name}</h3>
         <p>${tool.desc.substring(0, 150)}...</p>
         <p class="price">${tool.price} Stars</p>
-        <button onclick="window.location.href='tool.html?id=${tool.id}'">View Details & Buy</button>
+        <button onclick="window.location.href='tool.html?id=${tool.id}'">مشاهده جزئیات و خرید</button>
       `;
       list.appendChild(card);
     });
@@ -372,45 +368,45 @@ function loadToolDetail(id) {
     const imgElement = document.createElement('img');
     imgElement.src = img;
     imgElement.alt = tool.name;
-    imgElement.onerror = () => imgElement.src = 'https://via.placeholder.com/800x600?text=Image+Not+Found';
+    imgElement.onerror = () => imgElement.src = 'https://via.placeholder.com/800x600/333333/FFD700?text=Image+Not+Available';
     imagesContainer.appendChild(imgElement);
   });
 
   const payBtn = document.getElementById('payBtn');
-  payBtn.onclick = () => initiateStarsPayment(tool.id, tool.price, payBtn);
+  payBtn.onclick = () => initiateStarsPayment(tool.id, tool.price);
 }
 
-// پرداخت واقعی Stars
-async function initiateStarsPayment(id, price, btn) {
+// پرداخت واقعی با Telegram Stars (با slug لینک از بات)
+async function initiateStarsPayment(id, price) {
   const tool = toolsData.find(t => t.id === id);
 
-  const invoice = {
-    title: tool.name,
-    description: tool.desc.substring(0, 255),
-    payload: `golden_tool_${id}`,
-    provider_token: "",
-    currency: "XTR",
-    prices: [{ label: tool.name, amount: price * 100 }]
-  };
-
+  // درخواست slug از backend (بات invoice ایجاد می‌کنه و slug برمی‌گردونه)
   try {
-    Telegram.WebApp.invokeInvoice(invoice);
-
-    Telegram.WebApp.onEvent('invoiceClosed', (event) => {
-      if (event.status === 'paid' && event.payload === `golden_tool_${id}`) {
-        btn.style.display = 'none';
-        document.getElementById('downloadBtn').style.display = 'block';
-        document.getElementById('paymentStatus').style.display = 'block';
-        document.getElementById('paymentStatus').textContent = 'پرداخت موفق! ابزار آماده دانلود است ✨';
-        Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-      } else {
-        document.getElementById('paymentStatus').style.display = 'block';
-        document.getElementById('paymentStatus').textContent = 'پرداخت لغو یا ناموفق بود.';
-        Telegram.WebApp.HapticFeedback.notificationOccurred('error');
-      }
+    const response = await fetch(`/api/create-invoice`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ toolId: id, price })
     });
+
+    const data = await response.json();
+    if (data.slug) {
+      Telegram.WebApp.openInvoice(data.slug, (status) => {
+        if (status === 'paid') {
+          document.getElementById('payBtn').style.display = 'none';
+          document.getElementById('downloadBtn').style.display = 'block';
+          document.getElementById('paymentStatus').style.display = 'block';
+          document.getElementById('paymentStatus').textContent = 'پرداخت موفق! ابزار آماده دانلود است ✨';
+          Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+        } else {
+          document.getElementById('paymentStatus').style.display = 'block';
+          document.getElementById('paymentStatus').textContent = 'پرداخت لغو یا ناموفق بود.';
+        }
+      });
+    } else {
+      alert('خطا در ایجاد invoice');
+    }
   } catch (error) {
-    alert('خطا در پرداخت. دوباره امتحان کنید.');
+    alert('خطا در اتصال به سرور پرداخت');
   }
 }
 
@@ -418,5 +414,28 @@ async function initiateStarsPayment(id, price, btn) {
 function downloadTool(folder) {
   const zipUrl = `https://github.com/aliki007788-ops/Golden-TMA-Pro/raw/main/tools/${folder}/${folder}.zip`;
   window.open(zipUrl, '_blank');
-  Telegram.WebApp.HapticFeedback.notificationOccurred('success');
 }
+backend/server.js (برای ایجاد invoice slug)
+JavaScript// اضافه به server.js قبلی
+app.post('/api/create-invoice', async (req, res) => {
+  const { toolId, price } = req.body;
+  const tool = toolsData.find(t => t.id === toolId);
+
+  if (!tool) return res.status(404).json({ error: 'ابزار یافت نشد' });
+
+  try {
+    const invoiceLink = await bot.api.createInvoiceLink({
+      title: tool.name,
+      description: tool.desc,
+      payload: `golden_tool_${toolId}`,
+      provider_token: "",
+      currency: "XTR",
+      prices: [{ label: tool.name, amount: price * 100 }]
+    });
+
+    const slug = invoiceLink.split('/').pop(); // استخراج slug
+    res.json({ slug });
+  } catch (error) {
+    res.status(500).json({ error: 'خطا در ایجاد invoice' });
+  }
+});
