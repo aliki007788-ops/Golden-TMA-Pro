@@ -1,13 +1,26 @@
-name: Keep Render Service Awake
+name: 🌟 Keep Golden TMA Pro Alive Forever 🌟
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # هر ۵ دقیقه یکبار
-  workflow_dispatch:       # امکان اجرای دستی از GitHub
+    # هر ۵ دقیقه یکبار اجرا می‌شه (بهترین فاصله برای پلن رایگان Render)
+    - cron: '*/5 * * * *'
+  workflow_dispatch:  # امکان اجرای دستی از GitHub Actions
 
 jobs:
   keep-alive:
     runs-on: ubuntu-latest
+    name: 🛡️ Prevent Render Sleep – Golden TMA Pro
     steps:
-      - name: Ping Render Service
-        run: curl -f https://golden-tma-backend.onrender.com || exit 1
+      - name: 🚀 Ping Render Service to Stay Awake
+        run: |
+          curl -f -s -o /dev/null \
+            -H "User-Agent: Golden-TMA-Pro-Keep-Alive/1.0 (+https://github.com/aliki007788-ops/Golden-TMA-Pro)" \
+            "https://golden-tma-backend.onrender.com" || exit 1
+
+      - name: ✅ Success Notification
+        if: success()
+        run: echo "✅ Golden TMA Pro is wide awake and ready for action! ✨"
+
+      - name: ⚠️ Warning on Failure
+        if: failure()
+        run: echo "⚠️ Failed to ping Render service – check URL or service status!"
