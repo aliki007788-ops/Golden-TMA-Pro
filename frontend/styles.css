@@ -1,3 +1,4 @@
+/* تم سینمایی فوق حرفه‌ای – کاملاً ریسپانسیو برای موبایل */
 body {
   margin: 0;
   padding: 0;
@@ -40,6 +41,7 @@ h1 {
   letter-spacing: 3px;
 }
 
+/* دکمه‌های سطوح – اندازه مناسب موبایل */
 .tier-buttons {
   display: flex;
   justify-content: center;
@@ -80,6 +82,7 @@ h1 {
   font-weight: bold;
 }
 
+/* ستاره فیروزه‌ای – همیشه نمایان */
 .turquoise-star {
   position: absolute;
   top: 50%;
@@ -105,6 +108,7 @@ h1 {
   to { box-shadow: 0 0 120px #00ffff; }
 }
 
+/* گرید ابزارها – ریسپانسیو */
 .tools-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -124,6 +128,7 @@ h1 {
   }
 }
 
+/* کارت ابزار – حرفه‌ای و ریسپانسیو */
 .tool-card {
   background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
   border: 3px solid #FFD70040;
@@ -191,4 +196,62 @@ h1 {
 .tool-card button:hover {
   transform: translateY(-5px);
   box-shadow: 0 25px 60px #FFD70090;
+}
+
+/* صفحه جزئیات ابزار – ریسپانسیو */
+.tool-detail {
+  padding: 60px 20px;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 15px 30px;
+  font-size: 1.4rem;
+  background: rgba(255,215,0,0.2);
+  color: #FFD700;
+  border: 2px solid #FFD700;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.detail-images {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin: 50px 0;
+}
+
+@media (min-width: 768px) {
+  .detail-images {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.detail-images img {
+  width: 100%;
+  border-radius: 30px;
+  box-shadow: 0 20px 50px rgba(255,215,0,0.6);
+}
+
+.detail-desc {
+  font-size: 1.6rem;
+  color: #cccccc;
+  line-height: 2;
+  margin: 50px 0;
+}
+
+.detail-price {
+  font-size: 3.5rem;
+  color: #FFD700;
+  font-weight: bold;
+  margin: 60px 0;
+}
+
+.detail-actions button {
+  width: 100%;
+  margin: 30px 0;
+  padding: 30px;
+  font-size: 2rem;
 }
