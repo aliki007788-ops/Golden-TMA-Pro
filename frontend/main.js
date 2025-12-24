@@ -1,10 +1,10 @@
 // main.js - Golden TMA Pro - Ultimate Elite Edition
-// تمام ۴۹ ابزار واقعی از repo شما – تصاویر + صفحه جزئیات + پرداخت + دانلود
+// تمام ۴۹ ابزار – صفحه جزئیات – پرداخت Stars – دانلود ZIP – سینمایی کامل
 
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
 
-// ذرات نورانی طلایی سینمایی
+// ذرات نورانی طلایی معلق سینمایی – فوق حرفه‌ای و نفس‌گیر (همیشه فعال)
 particlesJS('particles-js', {
   particles: {
     number: { value: 180, density: { enable: true, value_area: 800 } },
@@ -21,6 +21,7 @@ particlesJS('particles-js', {
   },
   retina_detect: true
 });
+
 
 // تمام ۴۹ ابزار – دقیق بر اساس لیست GitHub شما
 const toolsData = [
@@ -314,21 +315,22 @@ const toolsData = [
   ] }
 ];
 
+
 let currentTier = 'basic';
 
+// نمایش سطوح – دکمه فعال با کلاس active
 function showTier(tier) {
   currentTier = tier;
   document.querySelectorAll('.tier-btn').forEach(btn => {
-    btn.style.background = 'linear-gradient(145deg, #1a1a1a, #000000)';
-    btn.style.color = '#FFD700';
+    btn.classList.remove('active');
   });
   const activeBtn = document.querySelector(`.tier-btn[onclick="showTier('${tier}')"]`);
-  activeBtn.style.background = 'linear-gradient(145deg, #FFD700, #b8860b)';
-  activeBtn.style.color = '#000000';
+  activeBtn.classList.add('active');
 
   renderTools(tier);
 }
 
+// نمایش ابزارها
 function renderTools(tier) {
   const filtered = toolsData.filter(t => t.tier === tier);
   const list = document.getElementById('toolsList');
@@ -358,6 +360,7 @@ function renderTools(tier) {
   });
 }
 
+// صفحه جزئیات ابزار – سینمایی
 function openToolDetail(id) {
   const tool = toolsData.find(t => t.id === id);
   if (!tool) return;
@@ -387,6 +390,7 @@ function openToolDetail(id) {
   document.body.appendChild(overlay);
 }
 
+// پرداخت با Stars – popup تلگرام
 function buyWithStars(id, price) {
   Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
   Telegram.WebApp.showPopup({
@@ -396,10 +400,12 @@ function buyWithStars(id, price) {
   });
 }
 
+// دانلود مستقیم ZIP از GitHub
 function downloadTool(folder) {
   const zipUrl = `https://github.com/aliki007788-ops/Golden-TMA-Pro/raw/main/tools/${folder}/${folder}.zip`;
   window.open(zipUrl, '_blank');
   Telegram.WebApp.HapticFeedback.impactOccurred('light');
 }
 
+// شروع با Basic Tier
 showTier('basic');
