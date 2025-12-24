@@ -1,4 +1,4 @@
-﻿{
+{
   "tools": [
     {
       "id": 1,
@@ -90,17 +90,444 @@
       "folder": "js-template-master011",
       "active": true
     },
-    // ... برای صرفه‌جویی در فضا، فقط ۱۰ تا اول رو نوشتم
-    // بقیه ۴۹ ابزار رو خودت مشابه اضافه کن (از لیست فولدرها کپی کن)
-    // مثال آخرین:
     {
-      "id": 59,
-      "name": "Webpack Boiler 059",
-      "desc": "قالب Webpack پیشرفته",
-      "price": 799,
-      "tier": "premium",
-      "folder": "webpack-boilerplate-master059",
+      "id": 11,
+      "name": "Login Form 012",
+      "desc": "فرم ورود آماده برای مینی اپ",
+      "price": 199,
+      "tier": "basic",
+      "folder": "login-form-master012",
       "active": true
-    }
-  ]
+    },
+    {
+      "id": 12,
+      "name": "Markdown Editor 013",
+      "desc": "ویرایشگر Markdown داخل TMA",
+      "price": 299,
+      "tier": "basic",
+      "folder": "markdown-editor-master013",
+      "active": true
+    },
+    {
+      "id": 13,
+      "name": "MemoCard 014",
+      "desc": "سیستم کارت یادداشت سریع",
+      "price": 249,
+      "tier": "basic",
+      "folder": "memocard-master014",
+      "active": true
+    },
+    {
+      "id": 14,
+      "name": "MiniApp Starter 015",
+      "desc": "شروع سریع توسعه Mini App",
+      "price": 199,
+      "tier": "basic",
+      "folder": "miniapp-starter-master015",
+      "active": true
+    },
+    {
+      "id": 15,
+      "name": "NextJS Template 016",
+      "desc": "قالب آماده Next.js برای TMA",
+      "price": 399,
+      "tier": "pro",
+      "folder": "nextjs-template-master016",
+      "active": true
+    },
+    {
+      "id": 16,
+      "name": "Payment Demo 017",
+      "desc": "دموی پرداخت با Stars",
+      "price": 149,
+      "tier": "basic",
+      "folder": "payment-demo-master017",
+      "active": true
+    },
+    {
+      "id": 17,
+      "name": "Poll Manager 018",
+      "desc": "مدیریت نظرسنجی‌ها",
+      "price": 299,
+      "tier": "basic",
+      "folder": "poll-manager-master018",
+      "active": true
+    },
+    {
+      "id": 18,
+      "name": "React Template 019",
+      "desc": "قالب React برای Mini App",
+      "price": 399,
+      "tier": "pro",
+      "folder": "react-template-master019",
+      "active": true
+    },
+    {
+      "id": 19,
+      "name": "SolidJS Template 020",
+      "desc": "قالب SolidJS برای Mini App",
+      "price": 399,
+      "tier": "pro",
+      "folder": "solidjs-template-master020",
+      "active": true
+    },
+    {
+      "id": 20,
+      "name": "TeleBook 021",
+      "desc": "کتابخوان داخل تلگرام",
+      "price": 499,
+      "tier": "pro",
+      "folder": "telebook-master021",
+      "active": true
+    },
+    {
+      "id": 21,
+      "name": "TeleOTP 022",
+      "desc": "سیستم OTP برای ورود",
+      "price": 349,
+      "tier": "basic",
+      "folder": "teleotp-master022",
+      "active": true
+    },
+    {
+      "id": 22,
+      "name": "TelegramUI Kit 023",
+      "desc": "کیت UI آماده برای Mini App",
+      "price": 399,
+      "tier": "pro",
+      "folder": "telegramui-kit-master023",
+      "active": true
+    },
+    {
+      "id": 23,
+      "name": "Todo Manager 024",
+      "desc": "مدیریت کارهای روزانه",
+      "price": 249,
+      "tier": "basic",
+      "folder": "todo-manager-master024",
+      "active": true
+    },
+    {
+      "id": 24,
+      "name": "VanillaJS Template 025",
+      "desc": "قالب ساده VanillaJS",
+      "price": 249,
+      "tier": "basic",
+      "folder": "vanillajs-template-master025",
+      "active": true
+    },
+    {
+      "id": 25,
+      "name": "Vue Template 026",
+      "desc": "قالب Vue برای Mini App",
+      "price": 399,
+      "tier": "pro",
+      "folder": "vue-template-master026",
+      "active": true
+    },
+    {
+      "id": 26,
+      "name": "WebRTC Demo 027",
+      "desc": "دموی تماس تصویری WebRTC",
+      "price": 599,
+      "tier": "pro",
+      "folder": "webrtc-demo-master027",
+      "active": true
+    },
+    {
+      "id": 27,
+      "name": "Widget Manager 028",
+      "desc": "مدیریت ویجت‌ها",
+      "price": 299,
+      "tier": "basic",
+      "folder": "widget-manager-master028",
+      "active": true
+    },
+    {
+      "id": 28,
+      "name": "WordCounter 029",
+      "desc": "شمارشگر کلمات",
+      "price": 149,
+      "tier": "basic",
+      "folder": "wordcounter-master029",
+      "active": true
+    },
+    {
+      "id": 29,
+      "name": "Workflow Manager 030",
+      "desc": "مدیریت گردش کار",
+      "price": 499,
+      "tier": "pro",
+      "folder": "workflow-manager-master030",
+      "active": true
+    },
+    {
+      "id": 30,
+      "name": "Webpack Boiler 031",
+      "desc": "قالب Webpack ساده",
+      "price": 349,
+      "tier": "basic",
+      "folder": "webpack-boilerplate-master031",
+      "active": true
+    },
+    {
+       "id": 31,
+  "name": "Webpack Boiler 031",
+  "desc": "قالب Webpack ساده",
+  "price": 349,
+  "tier": "basic",
+  "folder": "webpack-boilerplate-master031",
+  "active": true
+},
+{
+  "id": 32,
+  "name": "Telegram Bot Kit 032",
+  "desc": "کیت توسعه بات تلگرام",
+  "price": 399,
+  "tier": "pro",
+  "folder": "telegram-bot-kit-master032",
+  "active": true
+},
+{
+  "id": 33,
+  "name": "UI Components 033",
+  "desc": "کامپوننت‌های UI آماده",
+  "price": 299,
+  "tier": "basic",
+  "folder": "ui-components-master033",
+  "active": true
+},
+{
+  "id": 34,
+  "name": "ChartJS Demo 034",
+  "desc": "دموی نمودارهای ChartJS",
+  "price": 249,
+  "tier": "basic",
+  "folder": "chartjs-demo-master034",
+  "active": true
+},
+{
+  "id": 35,
+  "name": "SocketIO Chat 035",
+  "desc": "چت زنده با Socket.IO",
+  "price": 499,
+  "tier": "pro",
+  "folder": "socketio-chat-master035",
+  "active": true
+},
+{
+  "id": 36,
+  "name": "Auth System 036",
+  "desc": "سیستم احراز هویت",
+  "price": 399,
+  "tier": "pro",
+  "folder": "auth-system-master036",
+  "active": true
+},
+{
+  "id": 37,
+  "name": "File Manager 037",
+  "desc": "مدیریت فایل‌ها",
+  "price": 349,
+  "tier": "basic",
+  "folder": "file-manager-master037",
+  "active": true
+},
+{
+  "id": 38,
+  "name": "Notification Center 038",
+  "desc": "مرکز اعلان‌ها",
+  "price": 299,
+  "tier": "basic",
+  "folder": "notification-center-master038",
+  "active": true
+},
+{
+  "id": 39,
+  "name": "Scheduler 039",
+  "desc": "زمان‌بندی وظایف",
+  "price": 399,
+  "tier": "pro",
+  "folder": "scheduler-master039",
+  "active": true
+},
+{
+  "id": 40,
+  "name": "Markdown Viewer 040",
+  "desc": "نمایشگر Markdown",
+  "price": 249,
+  "tier": "basic",
+  "folder": "markdown-viewer-master040",
+  "active": true
+},
+{
+  "id": 41,
+  "name": "PDF Generator 041",
+  "desc": "تولید PDF داخل Mini App",
+  "price": 499,
+  "tier": "pro",
+  "folder": "pdf-generator-master041",
+  "active": true
+},
+{
+  "id": 42,
+  "name": "Image Gallery 042",
+  "desc": "گالری تصاویر",
+  "price": 299,
+  "tier": "basic",
+  "folder": "image-gallery-master042",
+  "active": true
+},
+{
+  "id": 43,
+  "name": "Video Player 043",
+  "desc": "پخش‌کننده ویدیو",
+  "price": 399,
+  "tier": "pro",
+  "folder": "video-player-master043",
+  "active": true
+},
+{
+  "id": 44,
+  "name": "Music Player 044",
+  "desc": "پخش‌کننده موزیک",
+  "price": 349,
+  "tier": "basic",
+  "folder": "music-player-master044",
+  "active": true
+},
+{
+  "id": 45,
+  "name": "Form Builder 045",
+  "desc": "سازنده فرم‌ها",
+  "price": 299,
+  "tier": "basic",
+  "folder": "form-builder-master045",
+  "active": true
+},
+{
+  "id": 46,
+  "name": "Survey Manager 046",
+  "desc": "مدیریت پرسشنامه‌ها",
+  "price": 399,
+  "tier": "pro",
+  "folder": "survey-manager-master046",
+  "active": true
+},
+{
+  "id": 47,
+  "name": "Kanban Board 047",
+  "desc": "بورد کانبان",
+  "price": 499,
+  "tier": "pro",
+  "folder": "kanban-board-master047",
+  "active": true
+},
+{
+  "id": 48,
+  "name": "CRM Lite 048",
+  "desc": "سیستم مدیریت مشتری ساده",
+  "price": 599,
+  "tier": "pro",
+  "folder": "crm-lite-master048",
+  "active": true
+},
+{
+  "id": 49,
+  "name": "CMS Lite 049",
+  "desc": "سیستم مدیریت محتوا ساده",
+  "price": 599,
+  "tier": "pro",
+  "folder": "cms-lite-master049",
+  "active": true
+},
+{
+  "id": 50,
+  "name": "Blog Engine 050",
+  "desc": "موتور وبلاگ",
+  "price": 349,
+  "tier": "basic",
+  "folder": "blog-engine-master050",
+  "active": true
+},
+{
+  "id": 51,
+  "name": "Portfolio Template 051",
+  "desc": "قالب نمونه‌کار",
+  "price": 299,
+  "tier": "basic",
+  "folder": "portfolio-template-master051",
+  "active": true
+},
+{
+  "id": 52,
+  "name": "E-Commerce Lite 052",
+  "desc": "فروشگاه ساده",
+  "price": 799,
+  "tier": "premium",
+  "folder": "ecommerce-lite-master052",
+  "active": true
+},
+{
+  "id": 53,
+  "name": "Invoice Manager 053",
+  "desc": "مدیریت فاکتورها",
+  "price": 399,
+  "tier": "pro",
+  "folder": "invoice-manager-master053",
+  "active": true
+},
+{
+  "id": 54,
+  "name": "Expense Tracker 054",
+  "desc": "ردیابی هزینه‌ها",
+  "price": 299,
+  "tier": "basic",
+  "folder": "expense-tracker-master054",
+  "active": true
+},
+{
+  "id": 55,
+  "name": "Budget Planner 055",
+  "desc": "برنامه‌ریز بودجه",
+  "price": 349,
+  "tier": "basic",
+  "folder": "budget-planner-master055",
+  "active": true
+},
+{
+  "id": 56,
+  "name": "Calendar Manager 056",
+  "desc": "مدیریت تقویم",
+  "price": 399,
+  "tier": "pro",
+  "folder": "calendar-manager-master056",
+  "active": true
+},
+{
+  "id": 57,
+  "name": "Task Manager 057",
+  "desc": "مدیریت وظایف",
+  "price": 349,
+  "tier": "basic",
+  "folder": "task-manager-master057",
+  "active": true
+},
+{
+  "id": 58,
+  "name": "Notes App 058",
+  "desc": "اپلیکیشن یادداشت‌ها",
+  "price": 299,
+  "tier": "basic",
+  "folder": "notes-app-master058",
+  "active": true
+},
+{
+  "id": 59,
+  "name": "Webpack Boiler 059",
+  "desc": "قالب Webpack پیشرفته",
+  "price": 799,
+  "tier": "premium",
+  "folder": "webpack-boilerplate-master059",
+  "active": true
 }
