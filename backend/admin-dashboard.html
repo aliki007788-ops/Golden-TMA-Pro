@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>داشبورد Golden TMA Pro</title>
+  <style>
+    body { font-family: Tahoma; background: #000; color: #FFD700; text-align: center; padding: 50px; }
+    h1 { font-size: 3rem; }
+    .stat { font-size: 2rem; margin: 30px; }
+  </style>
+</head>
+<body>
+  <h1>🌟 داشبورد مدیریت Golden TMA Pro</h1>
+  <div id="stats" class="stat">در حال بارگذاری...</div>
+  <script>
+    fetch('/api/stats')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('stats').innerHTML = `
+          بازدید کل: ${data.visits}<br>
+          فروش کل: ${data.totalSales}<br>
+          درآمد کل: ${data.totalIncome} Stars<br>
+          خریداران امروز: ${data.todayPurchases}
+        `;
+      });
+  </script>
+</body>
+</html>
