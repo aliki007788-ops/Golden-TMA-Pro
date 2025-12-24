@@ -1,23 +1,22 @@
-// main.js - Golden TMA Pro - Ultimate Elite Edition
-// تمام ۴۹ ابزار – صفحه جزئیات – پرداخت Stars – دانلود ZIP – سینمایی کامل
+// main.js - Golden TMA Pro - Frontend Display Only
 
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
 
-// ذرات نورانی طلایی معلق سینمایی – فوق حرفه‌ای و نفس‌گیر (همیشه فعال)
+// ذرات طلایی سینمایی
 particlesJS('particles-js', {
   particles: {
-    number: { value: 180, density: { enable: true, value_area: 800 } },
+    number: { value: 120, density: { enable: true, value_area: 800 } },
     color: { value: '#FFD700' },
     shape: { type: 'circle' },
-    opacity: { value: 0.9, random: true, anim: { enable: true, speed: 1 } },
-    size: { value: 5, random: true },
-    line_linked: { enable: true, distance: 200, color: '#FFD700', opacity: 0.4, width: 1 },
-    move: { enable: true, speed: 4, direction: 'none', random: true }
+    opacity: { value: 0.8, random: true },
+    size: { value: 4, random: true },
+    line_linked: { enable: true, distance: 150, color: '#FFD700', opacity: 0.3, width: 1 },
+    move: { enable: true, speed: 3 }
   },
   interactivity: {
-    events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
-    modes: { repulse: { distance: 200 }, push: { particles_nb: 10 } }
+    events: { onhover: { enable: true, mode: 'repulse' } },
+    modes: { repulse: { distance: 150 } }
   },
   retina_detect: true
 });
@@ -315,22 +314,16 @@ const toolsData = [
   ] }
 ];
 
-
 let currentTier = 'basic';
 
-// نمایش سطوح – دکمه فعال با کلاس active
 function showTier(tier) {
   currentTier = tier;
-  document.querySelectorAll('.tier-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  const activeBtn = document.querySelector(`.tier-btn[onclick="showTier('${tier}')"]`);
-  activeBtn.classList.add('active');
+  document.querySelectorAll('.tier-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`.tier-btn[onclick="showTier('${tier}')"]`).classList.add('active');
 
   renderTools(tier);
 }
 
-// نمایش ابزارها
 function renderTools(tier) {
   const filtered = toolsData.filter(t => t.tier === tier);
   const list = document.getElementById('toolsList');
@@ -339,9 +332,6 @@ function renderTools(tier) {
   filtered.forEach(tool => {
     const card = document.createElement('div');
     card.className = 'tool-card';
-    card.onclick = (e) => {
-      if (!e.target.tagName.toLowerCase() === 'button') openToolDetail(tool.id);
-    };
 
     let imagesHtml = '';
     tool.images.forEach(img => {
@@ -353,59 +343,10 @@ function renderTools(tier) {
       <h3>${tool.id}. ${tool.name}</h3>
       <p>${tool.desc}</p>
       <p class="price">${tool.price} Stars</p>
-      <button onclick="event.stopPropagation(); buyWithStars(${tool.id}, ${tool.price})">Pay with Stars</button>
-      <button onclick="event.stopPropagation(); downloadTool('${tool.folder}')">Download ZIP</button>
+      <button onclick="Telegram.WebApp.openTelegramLink('https://t.me/yourbotusername?start=tool_${tool.id}')">Buy & Download</button>
     `;
     list.appendChild(card);
   });
 }
 
-// صفحه جزئیات ابزار – سینمایی
-function openToolDetail(id) {
-  const tool = toolsData.find(t => t.id === id);
-  if (!tool) return;
-
-  const overlay = document.createElement('div');
-  overlay.className = 'detail-overlay';
-  overlay.onclick = () => overlay.remove();
-
-  let imagesHtml = '';
-  tool.images.forEach(img => {
-    imagesHtml += `<img src="${img}" alt="${tool.name}">`;
-  });
-
-  overlay.innerHTML = `
-    <div class="detail-modal" onclick="event.stopPropagation()">
-      <button class="close-btn" onclick="this.parentElement.parentElement.remove()">×</button>
-      <h2>${tool.name}</h2>
-      <div class="detail-images">${imagesHtml}</div>
-      <p class="detail-desc">${tool.desc}</p>
-      <p class="detail-price">${tool.price} Stars</p>
-      <div class="detail-actions">
-        <button onclick="buyWithStars(${tool.id}, ${tool.price})">Pay with Stars</button>
-        <button onclick="downloadTool('${tool.folder}')">Download Tool ZIP</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-}
-
-// پرداخت با Stars – popup تلگرام
-function buyWithStars(id, price) {
-  Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
-  Telegram.WebApp.showPopup({
-    title: "Golden TMA Pro Payment",
-    message: `Paying ${price} Stars for "${toolsData.find(t => t.id === id).name}"\nConnecting to Telegram Wallet...`,
-    buttons: [{ type: "ok" }]
-  });
-}
-
-// دانلود مستقیم ZIP از GitHub
-function downloadTool(folder) {
-  const zipUrl = `https://github.com/aliki007788-ops/Golden-TMA-Pro/raw/main/tools/${folder}/${folder}.zip`;
-  window.open(zipUrl, '_blank');
-  Telegram.WebApp.HapticFeedback.impactOccurred('light');
-}
-
-// شروع با Basic Tier
 showTier('basic');
