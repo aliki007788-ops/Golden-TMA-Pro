@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golden TMA Pro - Admin Panel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+    }
+    
+    .admin-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .admin-header {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 2px solid #FFD700;
+    }
+    
+    .admin-title {
+      font-size: 2.5rem;
+      color: #FFD700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .admin-title i {
+      font-size: 3rem;
+    }
+    
+    .admin-subtitle {
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+    
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 25px;
+      border: 1px solid #334155;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: #FFD700;
+      box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+    }
+    
+    .stat-value {
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #FFD700;
+      margin-bottom: 10px;
+    }
+    
+    .stat-label {
+      color: #94a3b8;
+      font-size: 1rem;
+    }
+    
+    .admin-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .tab-btn {
+      padding: 12px 24px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    .tab-btn.active {
+      background: #FFD700;
+      color: #000;
+      border-color: #FFD700;
+    }
+    
+    .tab-content {
+      display: none;
+      background: #1e293b;
+      border-radius: 15px;
+      padding: 25px;
+      border: 1px solid #334155;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .data-table th {
+      background: #334155;
+      color: #FFD700;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+    }
+    
+    .data-table td {
+      padding: 15px;
+      border-bottom: 1px solid #475569;
+      color: #e2e8f0;
+    }
+    
+    .data-table tr:hover {
+      background: rgba(255, 215, 0, 0.1);
+    }
+    
+    .status-paid {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .status-pending {
+      background: rgba(234, 179, 8, 0.2);
+      color: #eab308;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .status-failed {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    
+    .admin-controls {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .control-btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .export-btn {
+      background: #10b981;
+      color: white;
+    }
+    
+    .refresh-btn {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .logout-btn {
+      background: #ef4444;
+      color: white;
+    }
+    
+    .control-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .search-box {
+      flex: 1;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: 1px solid #475569;
+      background: #1e293b;
+      color: white;
+      font-size: 1rem;
+    }
+    
+    .search-box:focus {
+      outline: none;
+      border-color: #FFD700;
+    }
+    
+    .chart-container {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid #334155;
+    }
+    
+    .chart-title {
+      color: #FFD700;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .tool-badge {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      margin: 2px;
+      display: inline-block;
+    }
+    
+    .date-filter {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .date-input {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #475569;
+      background: #1e293b;
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+      
+      .admin-title {
+        font-size: 2rem;
+      }
+      
+      .stat-value {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- هدر پنل ادمین -->
+    <div class="admin-header">
+      <div class="admin-title">
+        <i class="fas fa-crown"></i>
+        Golden TMA Pro - Admin Panel
+      </div>
+      <div class="admin-subtitle">
+        دسترسی کامل به آمار و مدیریت سیستم | آخرین بروزرسانی: <span id="lastUpdate">درحال بارگذاری...</span>
+      </div>
+    </div>
+    
+    <!-- آمار کلی -->
+    <div class="admin-stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalRevenue">0 Stars</div>
+        <div class="stat-label">کل درآمد</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalSales">0</div>
+        <div class="stat-label">تعداد فروش</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalUsers">0</div>
+        <div class="stat-label">کاربران فعال</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="todayRevenue">0 Stars</div>
+        <div class="stat-label">درآمد امروز</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="popularTool">-</div>
+        <div class="stat-label">محبوب‌ترین ابزار</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="conversionRate">0%</div>
+        <div class="stat-label">نرخ تبدیل</div>
+      </div>
+    </div>
+    
+    <!-- تب‌های مدیریت -->
+    <div class="admin-tabs">
+      <button class="tab-btn active" onclick="showTab('sales')">
+        <i class="fas fa-shopping-cart"></i> فروش‌ها
+      </button>
+      <button class="tab-btn" onclick="showTab('users')">
+        <i class="fas fa-users"></i> کاربران
+      </button>
+      <button class="tab-btn" onclick="showTab('tools')">
+        <i class="fas fa-tools"></i> ابزارها
+      </button>
+      <button class="tab-btn" onclick="showTab('analytics')">
+        <i class="fas fa-chart-line"></i> آنالیز
+      </button>
+      <button class="tab-btn" onclick="showTab('downloads')">
+        <i class="fas fa-download"></i> دانلودها
+      </button>
+      <button class="tab-btn" onclick="showTab('settings')">
+        <i class="fas fa-cog"></i> تنظیمات
+      </button>
+    </div>
+    
+    <!-- محتوای تب‌ها -->
+    <div id="sales-tab" class="tab-content active">
+      <h3 style="color: #FFD700; margin-bottom: 20px;">مدیریت فروش‌ها</h3>
+      <div class="date-filter">
+        <input type="date" id="startDate" class="date-input">
+        <input type="date" id="endDate" class="date-input">
+        <button class="control-btn refresh-btn" onclick="filterSales()">
+          <i class="fas fa-filter"></i> فیلتر
+        </button>
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>کاربر</th>
+              <th>ابزار</th>
+              <th>مبلغ</th>
+              <th>تاریخ</th>
+              <th>وضعیت</th>
+              <th>عملیات</th>
+            </tr>
+          </thead>
+          <tbody id="salesTableBody">
+            <!-- داده‌های فروش اینجا لود می‌شوند -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div id="users-tab" class="tab-content">
+      <h3 style="color: #FFD700; margin-bottom: 20px;">مدیریت کاربران</h3>
+      <input type="text" class="search-box" placeholder="جستجوی کاربر..." onkeyup="searchUsers(this.value)">
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>اطلاعات</th>
+              <th>تعداد خرید</th>
+              <th>کل هزینه</th>
+              <th>آخرین خرید</th>
+              <th>وضعیت</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <!-- داده‌های کاربران اینجا لود می‌شوند -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div id="tools-tab" class="tab-content">
+      <h3 style="color: #FFD700; margin-bottom: 20px;">مدیریت ابزارها</h3>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>نام ابزار</th>
+              <th>تیر</th>
+              <th>قیمت</th>
+              <th>تعداد فروش</th>
+              <th>درآمد</th>
+              <th>عملیات</th>
+            </tr>
+          </thead>
+          <tbody id="toolsTableBody">
+            <!-- داده‌های ابزارها اینجا لود می‌شوند -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div id="analytics-tab" class="tab-content">
+      <h3 style="color: #FFD700; margin-bottom: 20px;">آنالیز و نمودارها</h3>
+      <div class="chart-container">
+        <div class="chart-title">📈 درآمد 7 روز گذشته</div>
+        <canvas id="revenueChart" height="100"></canvas>
+      </div>
+      <div class="chart-container">
+        <div class="chart-title">📊 فروش بر اساس تیر</div>
+        <canvas id="tierChart" height="100"></canvas>
+      </div>
+      <div class="chart-container">
+        <div class="chart-title">🎯 5 ابزار پرفروش</div>
+        <canvas id="topToolsChart" height="100"></canvas>
+      </div>
+    </div>
+    
+    <div id="downloads-tab" class="tab-content">
+      <h3 style="color: #FFD700; margin-bottom: 20px;">تاریخچه دانلودها</h3>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>کاربر</th>
+              <th>ابزار</th>
+              <th>تاریخ دانلود</th>
+              <th>IP</th>
+              <th>وضعیت</th>
+            </tr>
+          </thead>
+          <tbody id="downloadsTableBody">
+            <!-- داده‌های دانلود اینجا لود می‌شوند -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div id="settings-tab" class="tab-content">
+      <h3 style="color: #FFD700; margin-bottom: 20px;">تنظیمات سیستم</h3>
+      <div style="display: grid; gap: 20px;">
+        <div style="background: #334155; padding: 20px; border-radius: 10px;">
+          <h4 style="margin-bottom: 15px; color: #FFD700;">🛡️ امنیت</h4>
+          <button class="control-btn" onclick="regenerateToken()" style="background: #8b5cf6;">
+            <i class="fas fa-key"></i> ایجاد توکن ادمین جدید
+          </button>
+        </div>
+        
+        <div style="background: #334155; padding: 20px; border-radius: 10px;">
+          <h4 style="margin-bottom: 15px; color: #FFD700;">📊 پشتیبان‌گیری</h4>
+          <button class="control-btn export-btn" onclick="exportData()">
+            <i class="fas fa-file-export"></i> خروجی Excel
+          </button>
+          <button class="control-btn" onclick="backupDatabase()" style="background: #f59e0b;">
+            <i class="fas fa-database"></i> پشتیبان بانک اطلاعاتی
+          </button>
+        </div>
+        
+        <div style="background: #334155; padding: 20px; border-radius: 10px;">
+          <h4 style="margin-bottom: 15px; color: #FFD700;">🔔 اطلاع‌رسانی</h4>
+          <label style="display: block; margin-bottom: 10px;">
+            <input type="checkbox" id="emailNotifications" checked>
+            دریافت ایمیل برای فروش‌های جدید
+          </label>
+          <label style="display: block; margin-bottom: 10px;">
+            <input type="checkbox" id="telegramNotifications" checked>
+            دریافت نوتیفیکیشن تلگرام
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    <!-- کنترل‌های پایینی -->
+    <div class="admin-controls">
+      <input type="text" class="search-box" placeholder="جستجو در تمام داده‌ها..." id="globalSearch">
+      <button class="control-btn refresh-btn" onclick="loadAdminData()">
+        <i class="fas fa-sync-alt"></i> بروزرسانی
+      </button>
+      <button class="control-btn export-btn" onclick="exportToExcel()">
+        <i class="fas fa-file-excel"></i> خروجی Excel
+      </button>
+      <button class="control-btn logout-btn" onclick="logoutAdmin()">
+        <i class="fas fa-sign-out-alt"></i> خروج
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // توکن ادمین از URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const adminToken = urlParams.get('admin_token');
+    
+    // داده‌های تستی (در نسخه واقعی از API می‌آید)
+    const sampleData = {
+      sales: [
+        { id: 1001, userId: 5001, toolId: 1, toolName: "Analytics 001", amount: 199, date: "2024-01-15", status: "paid" },
+        { id: 1002, userId: 5002, toolId: 3, toolName: "ChessNowBot 004", amount: 599, date: "2024-01-14", status: "paid" },
+        { id: 1003, userId: 5003, toolId: 35, toolName: "Stars Payments", amount: 899, date: "2024-01-14", status: "paid" },
+        { id: 1004, userId: 5004, toolId: 16, toolName: "Next.js Template", amount: 799, date: "2024-01-13", status: "pending" },
+        { id: 1005, userId: 5005, toolId: 7, toolName: "Issues Tracker", amount: 299, date: "2024-01-12", status: "failed" },
+      ],
+      users: [
+        { id: 5001, name: "John Doe", purchases: 3, totalSpent: 1097, lastPurchase: "2024-01-15", status: "active" },
+        { id: 5002, name: "Alice Smith", purchases: 1, totalSpent: 599, lastPurchase: "2024-01-14", status: "active" },
+        { id: 5003, name: "Bob Johnson", purchases: 5, totalSpent: 2895, lastPurchase: "2024-01-14", status: "premium" },
+        { id: 5004, name: "Charlie Brown", purchases: 2, totalSpent: 1098, lastPurchase: "2024-01-13", status: "active" },
+        { id: 5005, name: "David Wilson", purchases: 0, totalSpent: 0, lastPurchase: "-", status: "inactive" },
+      ],
+      tools: [
+        { id: 1, name: "Analytics 001", tier: "basic", price: 199, sales: 45, revenue: 8955 },
+        { id: 3, name: "ChessNowBot 004", tier: "pro", price: 599, sales: 28, revenue: 16772 },
+        { id: 35, name: "Stars Payments", tier: "premium", price: 899, sales: 19, revenue: 17081 },
+        { id: 16, name: "Next.js Template", tier: "premium", price: 799, sales: 32, revenue: 25568 },
+        { id: 7, name: "Issues Tracker", tier: "basic", price: 299, sales: 67, revenue: 20033 },
+      ],
+      downloads: [
+        { id: 3001, userId: 5001, toolId: 1, date: "2024-01-15 14:30", ip: "192.168.1.1", status: "success" },
+        { id: 3002, userId: 5002, toolId: 3, date: "2024-01-14 11:22", ip: "192.168.1.2", status: "success" },
+        { id: 3003, userId: 5003, toolId: 35, date: "2024-01-14 09:45", ip: "192.168.1.3", status: "success" },
+        { id: 3004, userId: 5004, toolId: 16, date: "2024-01-13 16:18", ip: "192.168.1.4", status: "pending" },
+      ]
+    };
+    
+    let charts = {};
+    
+    // بررسی دسترسی ادمین
+    function checkAdminAccess() {
+      const validTokens = ["GOLDEN_TMA_ADMIN_2024", "SUPER_ADMIN_SECRET", "MASTER_KEY_123"];
+      
+      if (!adminToken || !validTokens.includes(adminToken)) {
+        document.body.innerHTML = `
+          <div style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #0f172a;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+          ">
+            <i class="fas fa-lock" style="font-size: 4rem; color: #ef4444; margin-bottom: 20px;"></i>
+            <h1 style="color: #FFD700; margin-bottom: 10px;">دسترسی غیرمجاز</h1>
+            <p style="color: #94a3b8; margin-bottom: 30px; max-width: 500px;">
+              شما دسترسی به پنل ادمین را ندارید. لطفاً با مدیر سیستم تماس بگیرید.
+            </p>
+            <button onclick="window.history.back()" style="
+              padding: 12px 24px;
+              background: #3b82f6;
+              color: white;
+              border: none;
+              border-radius: 8px;
+              font-size: 1rem;
+              cursor: pointer;
+            ">
+              بازگشت
+            </button>
+          </div>
+        `;
+        return false;
+      }
+      return true;
+    }
+    
+    // نمایش تب‌ها
+    function showTab(tabName) {
+      // مخفی کردن همه تب‌ها
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // غیرفعال کردن همه دکمه‌ها
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // نمایش تب انتخاب شده
+      document.getElementById(tabName + '-tab').classList.add('active');
+      
+      // فعال کردن دکمه مربوطه
+      event.target.classList.add('active');
+      
+      // بارگذاری داده‌های تب
+      loadTabData(tabName);
+    }
+    
+    // بارگذاری داده‌های تب
+    function loadTabData(tabName) {
+      switch(tabName) {
+        case 'sales':
+          loadSalesData();
+          break;
+        case 'users':
+          loadUsersData();
+          break;
+        case 'tools':
+          loadToolsData();
+          break;
+        case 'analytics':
+          loadAnalyticsData();
+          break;
+        case 'downloads':
+          loadDownloadsData();
+          break;
+        case 'settings':
+          loadSettingsData();
+          break;
+      }
+    }
+    
+    // بارگذاری آمار کلی
+    function loadAdminData() {
+      // محاسبه آمار از داده‌های نمونه
+      const totalRevenue = sampleData.sales
+        .filter(sale => sale.status === 'paid')
+        .reduce((sum, sale) => sum + sale.amount, 0);
+      
+      const totalSales = sampleData.sales.filter(sale => sale.status === 'paid').length;
+      const totalUsers = sampleData.users.length;
+      
+      const today = new Date().toISOString().split('T')[0];
+      const todayRevenue = sampleData.sales
+        .filter(sale => sale.date === today && sale.status === 'paid')
+        .reduce((sum, sale) => sum + sale.amount, 0);
+      
+      // به‌روزرسانی آمار
+      document.getElementById('totalRevenue').textContent = totalRevenue + ' Stars';
+      document.getElementById('totalSales').textContent = totalSales;
+      document.getElementById('totalUsers').textContent = totalUsers;
+      document.getElementById('todayRevenue').textContent = todayRevenue + ' Stars';
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleString('fa-IR');
+      
+      // پیدا کردن محبوب‌ترین ابزار
+      const toolSales = {};
+      sampleData.sales.forEach(sale => {
+        if (sale.status === 'paid') {
+          toolSales[sale.toolName] = (toolSales[sale.toolName] || 0) + 1;
+        }
+      });
+      
+      const popularTool = Object.entries(toolSales).sort((a, b) => b[1] - a[1])[0];
+      document.getElementById('popularTool').textContent = popularTool ? popularTool[0] : '-';
+      
+      // محاسبه نرخ تبدیل (فرضی)
+      const conversionRate = Math.round((totalSales / totalUsers) * 100);
+      document.getElementById('conversionRate').textContent = conversionRate + '%';
+      
+      // بارگذاری تب فعال
+      const activeTab = document.querySelector('.tab-content.active').id.replace('-tab', '');
+      loadTabData(activeTab);
+    }
+    
+    // بارگذاری داده‌های فروش
+    function loadSalesData() {
+      const tbody = document.getElementById('salesTableBody');
+      tbody.innerHTML = '';
+      
+      sampleData.sales.forEach(sale => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>#${sale.id}</td>
+          <td>User #${sale.userId}</td>
+          <td>${sale.toolName}</td>
+          <td><strong>${sale.amount} Stars</strong></td>
+          <td>${sale.date}</td>
+          <td><span class="status-${sale.status}">${sale.status.toUpperCase()}</span></td>
+          <td>
+            <button onclick="viewSaleDetails(${sale.id})" style="
+              padding: 5px 10px;
+              background: #3b82f6;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              margin-right: 5px;
+            ">
+              <i class="fas fa-eye"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    
+    // بارگذاری داده‌های کاربران
+    function loadUsersData() {
+      const tbody = document.getElementById('usersTableBody');
+      tbody.innerHTML = '';
+      
+      sampleData.users.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>#${user.id}</td>
+          <td>
+            <strong>${user.name}</strong><br>
+            <small style="color: #94a3b8;">ID: ${user.id}</small>
+          </td>
+          <td>${user.purchases}</td>
+          <td><strong>${user.totalSpent} Stars</strong></td>
+          <td>${user.lastPurchase}</td>
+          <td><span class="status-${user.status === 'inactive' ? 'failed' : 'paid'}">${user.status.toUpperCase()}</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    
+    // بارگذاری داده‌های ابزارها
+    function loadToolsData() {
+      const tbody = document.getElementById('toolsTableBody');
+      tbody.innerHTML = '';
+      
+      sampleData.tools.forEach(tool => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${tool.id}</td>
+          <td><strong>${tool.name}</strong></td>
+          <td><span class="tool-badge">${tool.tier}</span></td>
+          <td>${tool.price} Stars</td>
+          <td>${tool.sales}</td>
+          <td><strong>${tool.revenue} Stars</strong></td>
+          <td>
+            <button onclick="editTool(${tool.id})" style="
+              padding: 5px 10px;
+              background: #10b981;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              margin-right: 5px;
+            ">
+              <i class="fas fa-edit"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    
+    // بارگذاری آنالیزها
+    function loadAnalyticsData() {
+      // نمودار درآمد 7 روز گذشته
+      const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+      if (charts.revenue) charts.revenue.destroy();
+      
+      charts.revenue = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+          labels: ['6 روز قبل', '5 روز قبل', '4 روز قبل', '3 روز قبل', 'پریروز', 'دیروز', 'امروز'],
+          datasets: [{
+            label: 'درآمد (Stars)',
+            data: [1200, 1900, 1500, 2300, 1800, 2500, 2100],
+            borderColor: '#FFD700',
+            backgroundColor: 'rgba(255, 215, 0, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: { color: '#fff' }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(255,255,255,0.1)' },
+              ticks: { color: '#94a3b8' }
+            },
+            x: {
+              grid: { color: 'rgba(255,255,255,0.1)' },
+              ticks: { color: '#94a3b8' }
+            }
+          }
+        }
+      });
+      
+      // نمودار فروش بر اساس تیر
+      const tierCtx = document.getElementById('tierChart').getContext('2d');
+      if (charts.tier) charts.tier.destroy();
+      
+      charts.tier = new Chart(tierCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Basic', 'Pro', 'Premium'],
+          datasets: [{
+            data: [45, 30, 25],
+            backgroundColor: [
+              'rgba(34, 197, 94, 0.8)',
+              'rgba(59, 130, 246, 0.8)',
+              'rgba(168, 85, 247, 0.8)'
+            ],
+            borderColor: [
+              '#22c55e',
+              '#3b82f6',
+              '#a855f7'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#fff' }
+            }
+          }
+        }
+      });
+      
+      // نمودار ابزارهای پرفروش
+      const toolsCtx = document.getElementById('topToolsChart').getContext('2d');
+      if (charts.topTools) charts.topTools.destroy();
+      
+      charts.topTools = new Chart(toolsCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Next.js Template', 'Stars Payments', 'Chess Bot', 'Analytics', 'Vue Template'],
+          datasets: [{
+            label: 'تعداد فروش',
+            data: [32, 19, 28, 45, 15],
+            backgroundColor: 'rgba(255, 215, 0, 0.7)',
+            borderColor: '#FFD700',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          indexAxis: 'y',
+          plugins: {
+            legend: {
+              labels: { color: '#fff' }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              grid: { color: 'rgba(255,255,255,0.1)' },
+              ticks: { color: '#94a3b8' }
+            },
+            y: {
+              grid: { color: 'rgba(255,255,255,0.1)' },
+              ticks: { color: '#94a3b8' }
+            }
+          }
+        }
+      });
+    }
+    
+    // بارگذاری داده‌های دانلود
+    function loadDownloadsData() {
+      const tbody = document.getElementById('downloadsTableBody');
+      tbody.innerHTML = '';
+      
+      sampleData.downloads.forEach(download => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>#${download.id}</td>
+          <td>User #${download.userId}</td>
+          <td>Tool #${download.toolId}</td>
+          <td>${download.date}</td>
+          <td><code>${download.ip}</code></td>
+          <td><span class="status-${download.status}">${download.status.toUpperCase()}</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    
+    // بارگذاری تنظیمات
+    function loadSettingsData() {
+      // تنظیمات از localStorage بارگذاری می‌شوند
+      const emailNotif = localStorage.getItem('emailNotifications') !== 'false';
+      const telegramNotif = localStorage.getItem('telegramNotifications') !== 'false';
+      
+      document.getElementById('emailNotifications').checked = emailNotif;
+      document.getElementById('telegramNotifications').checked = telegramNotif;
+    }
+    
+    // جستجوی کاربران
+    function searchUsers(query) {
+      // در نسخه واقعی از API استفاده می‌شود
+      console.log('Searching users:', query);
+    }
+    
+    // فیلتر فروش‌ها بر اساس تاریخ
+    function filterSales() {
+      const startDate = document.getElementById('startDate').value;
+      const endDate = document.getElementById('endDate').value;
+      
+      // در نسخه واقعی از API استفاده می‌شود
+      console.log('Filtering sales from', startDate, 'to', endDate);
+    }
+    
+    // مشاهده جزئیات فروش
+    function viewSaleDetails(saleId) {
+      const sale = sampleData.sales.find(s => s.id === saleId);
+      if (sale) {
+        alert(`جزئیات فروش #${saleId}\n\n` +
+              `کاربر: #${sale.userId}\n` +
+              `ابزار: ${sale.toolName}\n` +
+              `مبلغ: ${sale.amount} Stars\n` +
+              `تاریخ: ${sale.date}\n` +
+              `وضعیت: ${sale.status}`);
+      }
+    }
+    
+    // ویرایش ابزار
+    function editTool(toolId) {
+      alert(`ویرایش ابزار #${toolId}\n\nدر نسخه کامل، فرم ویرایش باز می‌شود.`);
+    }
+    
+    // ایجاد توکن ادمین جدید
+    function regenerateToken() {
+      const newToken = 'ADMIN_' + Math.random().toString(36).substr(2, 16).toUpperCase();
+      if (confirm(`توکن جدید ایجاد شود؟\n\n${newToken}\n\nاین توکن را در جایی امن ذخیره کنید.`)) {
+        alert(`توکن جدید ایجاد شد:\n${newToken}`);
+      }
+    }
+    
+    // خروجی گرفتن از داده‌ها
+    function exportData() {
+      alert('در نسخه کامل، فایل Excel دانلود می‌شود.');
+    }
+    
+    // پشتیبان بانک اطلاعاتی
+    function backupDatabase() {
+      alert('در نسخه کامل، فایل پشتیبان ایجاد می‌شود.');
+    }
+    
+    // خروجی Excel
+    function exportToExcel() {
+      alert('در نسخه کامل، تمام داده‌ها به صورت Excel خروجی گرفته می‌شوند.');
+    }
+    
+    // خروج از پنل ادمین
+    function logoutAdmin() {
+      if (confirm('آیا می‌خواهید از پنل ادمین خارج شوید؟')) {
+        window.location.href = 'index.html';
+      }
+    }
+    
+    // ذخیره تنظیمات
+    document.getElementById('emailNotifications').addEventListener('change', function() {
+      localStorage.setItem('emailNotifications', this.checked);
+    });
+    
+    document.getElementById('telegramNotifications').addEventListener('change', function() {
+      localStorage.setItem('telegramNotifications', this.checked);
+    });
+    
+    // راه‌اندازی اولیه
+    if (checkAdminAccess()) {
+      loadAdminData();
+      
+      // بارگذاری خودکار هر 30 ثانیه
+      setInterval(loadAdminData, 30000);
+      
+      // تاریخ پیش‌فرض برای فیلترها
+      const today = new Date();
+      const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+      
+      document.getElementById('startDate').value = weekAgo.toISOString().split('T')[0];
+      document.getElementById('endDate').value = today.toISOString().split('T')[0];
+    }
+  </script>
+</body>
+</html>
