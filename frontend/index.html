@@ -8,76 +8,134 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Cinzel:wght@900&display=swap" rel="stylesheet">
   
-  <!-- بارگذاری مستقیم particles.js از فایل محلی -->
-  <script src="js/particles.min.js"></script>
-  
   <style>
-    /* استایل اصلی برای ذرات */
-    #particles-js {
+    /* استایل اصلی برای کهکشان */
+    #galaxy-container {
       position: fixed !important;
       top: 0 !important;
       left: 0 !important;
       width: 100vw !important;
       height: 100vh !important;
       z-index: -1 !important;
-      background: linear-gradient(135deg, #0a001f 0%, #000000 70%) !important;
+      background: linear-gradient(135deg, #0a0a2e 0%, #000010 30%, #000000 70%) !important;
+      overflow: hidden !important;
       pointer-events: none !important;
     }
     
-    /* استایل پشتیبان اگر ذرات لود نشد */
-    .particles-backup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
-        linear-gradient(135deg, #0a001f 0%, #000000 70%);
-      animation: backgroundPulse 15s infinite alternate;
+    /* کهکشان مارپیچی مرکزی */
+    .spiral-galaxy {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 800px;
+      height: 800px;
+      transform: translate(-50%, -50%);
+      opacity: 0.15;
+      filter: blur(60px);
     }
     
-    @keyframes backgroundPulse {
-      0% { opacity: 0.7; }
-      100% { opacity: 1; }
+    .spiral-1 {
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+      animation: rotateGalaxy 180s infinite linear;
+    }
+    
+    .spiral-2 {
+      background: radial-gradient(circle at center, rgba(200, 220, 255, 0.6) 0%, transparent 60%);
+      animation: rotateGalaxy 240s infinite linear reverse;
+      width: 600px;
+      height: 600px;
+    }
+    
+    @keyframes rotateGalaxy {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    /* سحابی‌های کوچک */
+    .nebula {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.07;
+    }
+    
+    .nebula-1 {
+      top: 20%;
+      left: 15%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(180, 200, 255, 0.9) 0%, transparent 70%);
+      animation: floatNebula 80s infinite alternate ease-in-out;
+    }
+    
+    .nebula-2 {
+      bottom: 25%;
+      right: 10%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(220, 230, 255, 0.8) 0%, transparent 70%);
+      animation: floatNebula 100s infinite alternate ease-in-out;
+    }
+    
+    .nebula-3 {
+      top: 60%;
+      left: 80%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, transparent 70%);
+      animation: floatNebula 120s infinite alternate ease-in-out;
+    }
+    
+    @keyframes floatNebula {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(50px, -30px) scale(1.1); }
     }
     
     /* برای موبایل‌ها */
     @media (max-width: 768px) {
-      #particles-js {
-        background: linear-gradient(135deg, #0a001f 0%, #000000 90%) !important;
+      .spiral-galaxy {
+        width: 500px;
+        height: 500px;
       }
-    }
-    
-    /* نمایش پیام لودینگ */
-    .particles-loading {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: rgba(255, 215, 0, 0.2);
-      color: #FFD700;
-      padding: 8px 15px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-family: 'Orbitron', sans-serif;
-      z-index: 9998;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      display: none;
+      
+      .spiral-2 {
+        width: 400px;
+        height: 400px;
+      }
+      
+      .nebula {
+        filter: blur(30px);
+      }
+      
+      .nebula-1 {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .nebula-2 {
+        width: 180px;
+        height: 180px;
+      }
+      
+      .nebula-3 {
+        width: 150px;
+        height: 150px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- لایه پشتیبان -->
-  <div class="particles-backup"></div>
-  
-  <!-- پیام لودینگ -->
-  <div class="particles-loading" id="particlesLoading">Loading Particles...</div>
-  
-  <!-- کانواس ذرات -->
-  <div id="particles-js"></div>
+  <!-- کهکشان سفید -->
+  <div id="galaxy-container">
+    <!-- مارپیچ کهکشانی -->
+    <div class="spiral-galaxy spiral-1"></div>
+    <div class="spiral-galaxy spiral-2"></div>
+    
+    <!-- سحابی‌ها -->
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+  </div>
 
   <div class="container">
     <h1>Golden TMA Pro</h1>
@@ -104,369 +162,249 @@
     <div id="toolsList" class="tools-grid"></div>
   </div>
 
-  <!-- سیستم قطعی ذرات سینمایی -->
+  <!-- سیستم ذرات کهکشانی سفید -->
   <script>
-    // ==================== سیستم ذرات سینمایی قطعی ====================
-    console.log('🎬 Golden TMA Pro - Cinematic Particles System');
+    console.log('🌌 Initializing White Galactic Particle System...');
     
-    // نمایش پیام لودینگ
-    const loadingMsg = document.getElementById('particlesLoading');
-    loadingMsg.style.display = 'block';
-    
-    // 1. تابع اصلی برای ایجاد ذرات حرفه‌ای
-    function initCinematicParticles() {
-      console.log('🔄 Initializing cinematic particles...');
-      
-      const canvas = document.getElementById('particles-js');
-      if (!canvas) {
-        console.error('❌ Canvas element not found');
-        createFallbackParticles();
-        return;
-      }
-      
-      // پاکسازی
-      canvas.innerHTML = '';
+    // ==================== کهکشان سفید ====================
+    function createWhiteGalaxy() {
+      const container = document.getElementById('galaxy-container');
+      if (!container) return;
       
       const isMobile = window.innerWidth < 768;
+      const starCount = isMobile ? 400 : 800;
+      const particleCount = isMobile ? 200 : 400;
+      const galaxyCenterX = window.innerWidth / 2;
+      const galaxyCenterY = window.innerHeight / 2;
       
-      // 2. ابتدا ذرات ساده‌تر ایجاد کن (برای نمایش فوری)
-      createSimpleParticles();
+      // ============ ستاره‌های ثابت ============
+      console.log(`✨ Creating ${starCount} white stars...`);
       
-      // 3. سپس ذرات حرفه‌ای particles.js را فعال کن
-      setTimeout(() => {
-        if (typeof particlesJS === 'undefined') {
-          console.warn('⚠️ particlesJS not available, keeping simple particles');
-          loadingMsg.textContent = 'Simple Particles Active ✨';
-          setTimeout(() => loadingMsg.style.display = 'none', 2000);
-          return;
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        
+        // محاسبه موقعیت کهکشانی (ترکیب توزیع)
+        let x, y;
+        
+        // 70% ستاره‌ها در مارپیچ مرکزی
+        if (i < starCount * 0.7) {
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.random() ** 1.5 * Math.min(galaxyCenterX, galaxyCenterY) * 0.8;
+          const spiralOffset = Math.sin(angle * 3) * distance * 0.3;
+          
+          x = galaxyCenterX + Math.cos(angle) * (distance + spiralOffset);
+          y = galaxyCenterY + Math.sin(angle) * (distance + spiralOffset);
+        } 
+        // 30% ستاره‌ها در فضای بیرونی
+        else {
+          x = Math.random() * window.innerWidth;
+          y = Math.random() * window.innerHeight;
         }
         
-        try {
-          // تنظیمات حرفه‌ای ذرات طلایی
-          particlesJS('particles-js', {
-            particles: {
-              number: { 
-                value: isMobile ? 65 : 130, 
-                density: { 
-                  enable: true, 
-                  value_area: 900 
-                } 
-              },
-              color: { 
-                value: '#FFD700' 
-              },
-              shape: { 
-                type: 'circle',
-                stroke: { 
-                  width: 0, 
-                  color: '#000000' 
-                }
-              },
-              opacity: { 
-                value: isMobile ? 0.45 : 0.75, 
-                random: true, 
-                anim: { 
-                  enable: true, 
-                  speed: 0.9, 
-                  opacity_min: 0.1,
-                  sync: false
-                } 
-              },
-              size: { 
-                value: isMobile ? 2.8 : 4.8, 
-                random: true, 
-                anim: { 
-                  enable: true, 
-                  speed: 35, 
-                  size_min: 0.5,
-                  sync: false
-                } 
-              },
-              line_linked: { 
-                enable: true, 
-                distance: isMobile ? 95 : 155, 
-                color: '#FFD700', 
-                opacity: 0.35, 
-                width: 1 
-              },
-              move: { 
-                enable: true, 
-                speed: isMobile ? 1.8 : 3.2, 
-                direction: 'none', 
-                random: true, 
-                straight: false,
-                out_mode: 'out',
-                bounce: false,
-                attract: { enable: false, rotateX: 600, rotateY: 1200 }
-              }
-            },
-            interactivity: {
-              detect_on: 'canvas',
-              events: { 
-                onhover: { 
-                  enable: true, 
-                  mode: 'repulse' 
-                }, 
-                onclick: { 
-                  enable: true, 
-                  mode: 'push' 
-                }, 
-                resize: true 
-              },
-              modes: { 
-                repulse: { 
-                  distance: isMobile ? 85 : 145, 
-                  duration: 0.35 
-                }, 
-                push: { 
-                  particles_nb: isMobile ? 2 : 4 
-                }
-              }
-            },
-            retina_detect: true
-          });
-          
-          console.log('✨ Professional Cinematic Particles Activated!');
-          loadingMsg.textContent = 'Cinematic Particles Active ✨';
-          loadingMsg.style.background = 'rgba(0, 255, 0, 0.2)';
-          loadingMsg.style.borderColor = '#00FF00';
-          
-          // افکت تأیید
-          setTimeout(() => {
-            const particleCanvas = canvas.querySelector('canvas');
-            if (particleCanvas) {
-              particleCanvas.style.transition = 'all 1s ease';
-              particleCanvas.style.boxShadow = '0 0 60px rgba(255, 215, 0, 0.4)';
-              setTimeout(() => {
-                particleCanvas.style.boxShadow = 'none';
-                setTimeout(() => loadingMsg.style.display = 'none', 1000);
-              }, 1500);
-            }
-          }, 300);
-          
-        } catch (error) {
-          console.error('❌ Error in particlesJS:', error);
-          loadingMsg.textContent = 'Using Fallback Particles ✨';
-          setTimeout(() => loadingMsg.style.display = 'none', 2000);
-        }
-      }, 300);
-    }
-    
-    // 4. تابع ایجاد ذرات ساده (Fallback)
-    function createSimpleParticles() {
-      console.log('🌀 Creating simple golden particles...');
+        const size = Math.random() ** 2 * 2 + 0.5; // بیشتر ستاره‌ها کوچک
+        const brightness = Math.random() * 0.8 + 0.2;
+        const twinkleSpeed = Math.random() * 5 + 3;
+        const twinkleDelay = Math.random() * 5;
+        
+        star.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          background: white;
+          border-radius: 50%;
+          left: ${x}px;
+          top: ${y}px;
+          opacity: ${brightness};
+          box-shadow: 0 0 ${size * 3}px white;
+          filter: blur(${size * 0.3}px);
+          animation: starTwinkle ${twinkleSpeed}s infinite ${twinkleDelay}s;
+        `;
+        
+        container.appendChild(star);
+      }
       
-      const canvas = document.getElementById('particles-js');
-      if (!canvas) return;
+      // ============ ذرات متحرک کهکشانی ============
+      console.log(`🌀 Creating ${particleCount} galactic particles...`);
       
-      const simpleCanvas = document.createElement('canvas');
-      simpleCanvas.width = window.innerWidth;
-      simpleCanvas.height = window.innerHeight;
-      simpleCanvas.style.cssText = `
+      const particles = [];
+      const canvas = document.createElement('canvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.style.cssText = `
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
       `;
-      canvas.appendChild(simpleCanvas);
+      container.appendChild(canvas);
       
-      const ctx = simpleCanvas.getContext('2d');
-      const particles = [];
-      const particleCount = window.innerWidth < 768 ? 50 : 100;
+      const ctx = canvas.getContext('2d');
       
-      // ایجاد ذرات طلایی
+      // ایجاد ذرات کهکشانی
       for (let i = 0; i < particleCount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * Math.min(galaxyCenterX, galaxyCenterY) * 0.9;
+        const spiralArm = Math.floor(Math.random() * 4);
+        const spiralDensity = 0.15;
+        
         particles.push({
-          x: Math.random() * simpleCanvas.width,
-          y: Math.random() * simpleCanvas.height,
-          size: Math.random() * 3 + 1.5,
-          speedX: (Math.random() - 0.5) * 1.8,
-          speedY: (Math.random() - 0.5) * 1.8,
-          color: `hsl(51, 100%, ${55 + Math.random() * 25}%)`,
-          opacity: Math.random() * 0.5 + 0.25,
-          pulse: Math.random() * 0.05
+          x: galaxyCenterX + Math.cos(angle) * distance,
+          y: galaxyCenterY + Math.sin(angle) * distance,
+          size: Math.random() * 1.5 + 0.3, // کوچک
+          speed: Math.random() * 0.3 + 0.1,
+          angle: angle,
+          distance: distance,
+          spiralArm: spiralArm,
+          orbitSpeed: (0.2 + Math.random() * 0.3) * (distance / 500),
+          color: `rgba(255, 255, 255, ${Math.random() * 0.7 + 0.3})`,
+          trail: []
         });
       }
       
-      // تابع انیمیشن
-      function animate() {
-        ctx.clearRect(0, 0, simpleCanvas.width, simpleCanvas.height);
+      // ============ انیمیشن کهکشانی ============
+      let animationId;
+      let time = 0;
+      
+      function animateGalaxy() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        time += 0.01;
         
-        // رسم اتصالات
-        particles.forEach((p1, i) => {
-          particles.forEach((p2, j) => {
-            if (i < j) {
-              const dx = p1.x - p2.x;
-              const dy = p1.y - p2.y;
-              const distance = Math.sqrt(dx * dx + dy * dy);
-              
-              if (distance < 130) {
-                ctx.beginPath();
-                ctx.moveTo(p1.x, p1.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = `rgba(255, 215, 0, ${0.2 * (1 - distance/130)})`;
-                ctx.lineWidth = 0.8;
-                ctx.stroke();
-              }
+        // رسم دنباله‌های ذرات
+        particles.forEach(particle => {
+          // حرکت در مدار کهکشانی
+          particle.angle += particle.orbitSpeed * (1 + Math.sin(time + particle.spiralArm) * 0.1);
+          particle.distance += Math.sin(time * 0.5 + particle.spiralArm) * 0.2;
+          
+          // حرکت مارپیچی
+          const spiralX = Math.cos(particle.angle) * particle.distance;
+          const spiralY = Math.sin(particle.angle) * particle.distance;
+          const spiralOffset = Math.sin(particle.angle * 3 + particle.spiralArm) * 30;
+          
+          particle.x = galaxyCenterX + spiralX + Math.cos(particle.angle) * spiralOffset;
+          particle.y = galaxyCenterY + spiralY + Math.sin(particle.angle) * spiralOffset;
+          
+          // ذخیره موقعیت برای دنباله
+          particle.trail.push({x: particle.x, y: particle.y});
+          if (particle.trail.length > 15) particle.trail.shift();
+          
+          // رسم دنباله
+          if (particle.trail.length > 1) {
+            ctx.beginPath();
+            ctx.moveTo(particle.trail[0].x, particle.trail[0].y);
+            
+            for (let i = 1; i < particle.trail.length; i++) {
+              const opacity = i / particle.trail.length * 0.3;
+              ctx.lineTo(particle.trail[i].x, particle.trail[i].y);
+              ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+              ctx.lineWidth = particle.size * 0.5;
+              ctx.stroke();
             }
-          });
-        });
-        
-        // آپدیت و رسم ذرات
-        particles.forEach(p => {
-          p.x += p.speedX;
-          p.y += p.speedY;
+          }
           
-          // پالس‌ینگ سایز
-          p.size += Math.sin(Date.now() * 0.002 + p.opacity * 10) * p.pulse;
-          p.size = Math.max(1.2, Math.min(4.5, p.size));
-          
-          // بازگشت از لبه‌ها
-          if (p.x < 0 || p.x > simpleCanvas.width) p.speedX *= -1;
-          if (p.y < 0 || p.y > simpleCanvas.height) p.speedY *= -1;
+          // رسم ذره
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fillStyle = particle.color;
+          ctx.fill();
           
           // درخشش
           const gradient = ctx.createRadialGradient(
-            p.x, p.y, 0,
-            p.x, p.y, p.size * 2.5
+            particle.x, particle.y, 0,
+            particle.x, particle.y, particle.size * 3
           );
-          gradient.addColorStop(0, p.color);
-          gradient.addColorStop(1, 'rgba(255, 215, 0, 0)');
+          gradient.addColorStop(0, particle.color);
+          gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
           
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+          ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
           ctx.fillStyle = gradient;
-          ctx.globalAlpha = p.opacity * 0.4;
-          ctx.fill();
-          
-          // هسته
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = p.opacity;
           ctx.fill();
         });
         
-        requestAnimationFrame(animate);
+        // رسم خطوط کهکشانی
+        ctx.beginPath();
+        for (let arm = 0; arm < 4; arm++) {
+          for (let d = 50; d < 400; d += 20) {
+            const angle = time + arm * Math.PI / 2;
+            const x = galaxyCenterX + Math.cos(angle) * d + Math.cos(angle * 3) * 50;
+            const y = galaxyCenterY + Math.sin(angle) * d + Math.sin(angle * 3) * 50;
+            
+            if (d === 50) {
+              ctx.moveTo(x, y);
+            } else {
+              ctx.lineTo(x, y);
+            }
+          }
+        }
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        animationId = requestAnimationFrame(animateGalaxy);
       }
       
-      animate();
-    }
-    
-    // 5. تابع پشتیبان (اگر همه چیز شکست خورد)
-    function createFallbackParticles() {
-      console.log('🛡️ Activating ultimate fallback...');
+      // شروع انیمیشن
+      animateGalaxy();
       
-      const canvas = document.getElementById('particles-js');
-      if (!canvas) return;
+      // ریسایز کردن
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
       
-      canvas.innerHTML = '';
-      canvas.style.background = `
-        linear-gradient(135deg, 
-          #0a001f 0%, 
-          #1a0a2e 25%, 
-          #2d1b47 50%, 
-          #1a0a2e 75%, 
-          #0a001f 100%
-        )
-      `;
-      
-      // اضافه کردن چند ستاره ساده
-      for (let i = 0; i < 30; i++) {
-        const star = document.createElement('div');
-        star.style.cssText = `
-          position: absolute;
-          width: ${Math.random() * 3 + 1}px;
-          height: ${Math.random() * 3 + 1}px;
-          background: #FFD700;
-          border-radius: 50%;
-          top: ${Math.random() * 100}%;
-          left: ${Math.random() * 100}%;
-          opacity: ${Math.random() * 0.5 + 0.3};
-          animation: twinkle ${Math.random() * 3 + 2}s infinite alternate;
-        `;
-        canvas.appendChild(star);
-      }
-      
-      // اضافه کردن استایل انیمیشن
+      // اضافه کردن انیمیشن چشمک زدن به استایل
       const style = document.createElement('style');
       style.textContent = `
-        @keyframes twinkle {
-          0% { opacity: 0.3; transform: scale(1); }
-          100% { opacity: 0.8; transform: scale(1.2); }
+        @keyframes starTwinkle {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.1); }
+        }
+        
+        @keyframes particleDrift {
+          0% { transform: translate(0, 0); }
+          100% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px); }
         }
       `;
       document.head.appendChild(style);
       
-      loadingMsg.textContent = 'Basic Particles Active ✨';
-      setTimeout(() => loadingMsg.style.display = 'none', 2000);
+      console.log('✅ White Galaxy System Activated!');
     }
     
-    // 6. سیستم شروع اصلی
-    function startParticlesSystem() {
-      console.log('🚀 Starting particle system...');
-      
-      // چندین تلاش برای اطمینان
-      setTimeout(initCinematicParticles, 200);
-      setTimeout(() => {
-        const canvas = document.getElementById('particles-js');
-        if (!canvas.querySelector('canvas')) {
-          console.log('🔄 Retrying particle initialization...');
-          initCinematicParticles();
-        }
-      }, 1500);
-      
-      setTimeout(() => {
-        const canvas = document.getElementById('particles-js');
-        if (!canvas.querySelector('canvas') && !canvas.querySelector('div')) {
-          console.log('🛡️ Activating fallback system...');
-          createFallbackParticles();
-        }
-      }, 3000);
-    }
-    
-    // 7. راه‌اندازی وقتی DOM آماده شد
+    // ==================== شروع سیستم ====================
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('📄 DOM Content Loaded');
-      startParticlesSystem();
+      console.log('🚀 Starting White Galaxy System...');
+      createWhiteGalaxy();
+      
+      // توقف انیمیشن وقتی صفحه غیرفعال است
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          console.log('⏸️ Galaxy animation paused');
+        } else {
+          console.log('▶️ Galaxy animation resumed');
+        }
+      });
     });
     
-    // 8. همچنین وقتی کل صفحه لود شد
-    window.addEventListener('load', function() {
-      console.log('🖼️ Window Fully Loaded');
-      setTimeout(startParticlesSystem, 100);
-    });
-    
-    // 9. ریسایز کردن پنجره
+    // ریسایز کردن
     let resizeTimer;
     window.addEventListener('resize', function() {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function() {
-        console.log('🔄 Window Resized - Refreshing Particles');
-        startParticlesSystem();
-      }, 250);
+        console.log('🔄 Window resized - recreating galaxy');
+        const container = document.getElementById('galaxy-container');
+        if (container) {
+          const canvas = container.querySelector('canvas');
+          const stars = container.querySelectorAll('div[style*="background: white"]');
+          stars.forEach(star => star.remove());
+          if (canvas) canvas.remove();
+          createWhiteGalaxy();
+        }
+      }, 500);
     });
-    
-    // 10. تست دیباگ
-    setTimeout(function() {
-      const canvas = document.getElementById('particles-js');
-      const hasContent = canvas && (canvas.querySelector('canvas') || canvas.querySelector('div'));
-      
-      console.log('🔍 Debug Check:');
-      console.log('- Canvas exists:', !!canvas);
-      console.log('- Has content:', hasContent);
-      console.log('- particlesJS available:', typeof particlesJS !== 'undefined');
-      
-      if (!hasContent) {
-        console.log('⚠️ No particle content found, reinitializing...');
-        startParticlesSystem();
-      }
-    }, 4000);
-    
   </script>
   
-  <!-- main.js در آخر -->
+  <!-- main.js -->
   <script src="main.js"></script>
 </body>
 </html>
