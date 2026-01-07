@@ -1,12 +1,16 @@
-// main.js - Golden TMA Pro - Ultimate Cinematic Particles Edition (Fixed for Desktop & Mobile)
+// main.js - Golden TMA Pro - Ultimate Cinematic Particles Fixed Edition
+// ذرات نورانی طلایی سینمایی – همیشه فعال، درخشان و بدون مشکل
 
-// آماده‌سازی TMA
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
 
-// تابع ذرات سینمایی – کاملاً بهینه، همیشه فعال و بدون مشکل
+// تابع ذرات سینمایی – کاملاً بهینه و همیشه لود می‌شه
 function initParticles() {
-  if (!document.getElementById('particles-js')) return;
+  if (!document.getElementById('particles-js')) {
+    // اگر المنت وجود نداشت، دوباره امتحان کن
+    setTimeout(initParticles, 500);
+    return;
+  }
 
   const isMobile = window.innerWidth < 768;
 
@@ -29,11 +33,10 @@ function initParticles() {
   });
 }
 
-// لود اولیه
-initParticles();
+// لود اولیه با تاخیر برای اطمینان
+setTimeout(initParticles, 100);
 
-// بروزرسانی وقتی صفحه تغییر اندازه داد یا لود شد
-window.addEventListener('load', initParticles);
+// بروزرسانی وقتی صفحه تغییر اندازه داد
 window.addEventListener('resize', () => {
   const canvas = document.getElementById('particles-js');
   if (canvas) {
