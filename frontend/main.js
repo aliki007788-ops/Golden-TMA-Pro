@@ -6,49 +6,186 @@ Telegram.WebApp.expand();
 
 // تابع ذرات سینمایی – کاملاً بهینه و همیشه لود می‌شه
 function initParticles() {
+  // منتظر ماندن برای لود کامل DOM و کتابخانه particles.js
   if (typeof particlesJS === 'undefined') {
+    console.log('ParticlesJS library not loaded yet, retrying...');
     setTimeout(initParticles, 500);
     return;
   }
 
   const canvas = document.getElementById('particles-js');
   if (!canvas) {
+    console.log('Particles canvas not found, retrying...');
     setTimeout(initParticles, 500);
     return;
   }
 
+  // اگر ذرات از قبل لود شده، پاکسازی کن
+  if (window.particlesInstance) {
+    window.particlesInstance.destroy();
+  }
+
   const isMobile = window.innerWidth < 768;
 
-  particlesJS('particles-js', {
+  // ذرات طلایی سینمایی
+  window.particlesInstance = particlesJS('particles-js', {
     particles: {
-      number: { value: isMobile ? 70 : 140, density: { enable: true, value_area: 800 } },
-      color: { value: '#FFD700' },
-      shape: { type: 'circle' },
-      opacity: { value: isMobile ? 0.5 : 0.8, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1 } },
-      size: { value: isMobile ? 3 : 5, random: true, anim: { enable: true, speed: 40, size_min: 0.1 } },
-      line_linked: { enable: true, distance: isMobile ? 100 : 160, color: '#FFD700', opacity: 0.4, width: 1 },
-      move: { enable: true, speed: isMobile ? 2 : 4, direction: 'none', random: true, out_mode: 'out' }
+      number: { 
+        value: isMobile ? 70 : 140, 
+        density: { 
+          enable: true, 
+          value_area: 800 
+        } 
+      },
+      color: { 
+        value: '#FFD700' 
+      },
+      shape: { 
+        type: 'circle' 
+      },
+      opacity: { 
+        value: isMobile ? 0.5 : 0.8, 
+        random: true, 
+        anim: { 
+          enable: true, 
+          speed: 1, 
+          opacity_min: 0.1 
+        } 
+      },
+      size: { 
+        value: isMobile ? 3 : 5, 
+        random: true, 
+        anim: { 
+          enable: true, 
+          speed: 40, 
+          size_min: 0.1 
+        } 
+      },
+      line_linked: { 
+        enable: true, 
+        distance: isMobile ? 100 : 160, 
+        color: '#FFD700', 
+        opacity: 0.4, 
+        width: 1 
+      },
+      move: { 
+        enable: true, 
+        speed: isMobile ? 2 : 4, 
+        direction: 'none', 
+        random: true, 
+        out_mode: 'out',
+        bounce: false
+      }
     },
     interactivity: {
       detect_on: 'canvas',
-      events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
-      modes: { repulse: { distance: isMobile ? 100 : 150, duration: 0.4 }, push: { particles_nb: 4 } }
+      events: { 
+        onhover: { 
+          enable: true, 
+          mode: 'repulse' 
+        }, 
+        onclick: { 
+          enable: true, 
+          mode: 'push' 
+        }, 
+        resize: true 
+      },
+      modes: { 
+        repulse: { 
+          distance: isMobile ? 100 : 150, 
+          duration: 0.4 
+        }, 
+        push: { 
+          particles_nb: 4 
+        } 
+      }
     },
     retina_detect: true
   });
+  
+  console.log('Golden cinematic particles loaded successfully! ✨');
 }
 
-// لود اولیه با تاخیر برای اطمینان
-setTimeout(initParticles, 100);
+// لود اولیه وقتی صفحه کاملاً بارگذاری شد
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initParticles, 100);
+  });
+} else {
+  setTimeout(initParticles, 100);
+}
 
 // بروزرسانی وقتی صفحه تغییر اندازه داد
+let resizeTimeout;
 window.addEventListener('resize', () => {
-  const canvas = document.getElementById('particles-js');
-  if (canvas) {
-    canvas.innerHTML = '';
-    initParticles();
-  }
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    if (window.particlesInstance) {
+      window.particlesInstance.destroy();
+      initParticles();
+    }
+  }, 250);
 });
+
+// سیستم ادمین
+const ADMIN_USERS = [123456789, 987654321]; // شناسه‌های تلگرام ادمین‌ها (ایدی خودتون رو اینجا قرار بدید)
+
+// بررسی اگر کاربر ادمین است
+function checkIfAdmin() {
+  try {
+    const user = Telegram.WebApp.initDataUnsafe.user;
+    console.log('User check:', user);
+    return user && ADMIN_USERS.includes(user.id);
+  } catch (error) {
+    console.log('Error checking admin:', error);
+    return false;
+  }
+}
+
+// ایجاد دکمه ادمین در صورت نیاز
+function createAdminButton() {
+  if (checkIfAdmin() && document.getElementById('toolsList')) {
+    // ایجاد دکمه ادمین در صفحه اصلی
+    const adminBtn = document.createElement('button');
+    adminBtn.innerHTML = '👑 Admin Panel';
+    adminBtn.id = 'adminPanelBtn';
+    adminBtn.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      background: linear-gradient(135deg, #FFD700, #DAA520);
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(255,215,0,0.5);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    `;
+    
+    adminBtn.onmouseover = () => {
+      adminBtn.style.transform = 'translateY(-3px)';
+      adminBtn.style.boxShadow = '0 8px 25px rgba(255,215,0,0.7)';
+    };
+    
+    adminBtn.onmouseout = () => {
+      adminBtn.style.transform = 'translateY(0)';
+      adminBtn.style.boxShadow = '0 5px 20px rgba(255,215,0,0.5)';
+    };
+    
+    adminBtn.onclick = () => {
+      const adminToken = 'GOLDEN_TMA_ADMIN_' + new Date().getFullYear();
+      const userId = Telegram.WebApp.initDataUnsafe.user?.id || 'unknown';
+      window.location.href = `admin-panel.html?admin_token=${adminToken}&user_id=${userId}`;
+    };
+    
+    document.body.appendChild(adminBtn);
+    console.log('Admin button created for user');
+  }
+}
 
 // تمام ۴۹ ابزار واقعی – با توضیح کامل انگلیسی، عملکرد، ویژگی‌ها و ۴ تصویر placeholder حرفه‌ای
 const toolsData = [
@@ -384,6 +521,9 @@ if (document.getElementById('toolsList')) {
       `;
       list.appendChild(card);
     });
+    
+    // ایجاد دکمه ادمین بعد از لود صفحه
+    setTimeout(createAdminButton, 1000);
   }
 
   showTier('basic');
@@ -419,6 +559,9 @@ function loadToolDetail(id) {
 
   const payBtn = document.getElementById('payBtn');
   payBtn.onclick = () => initiateStarsPayment(tool.id, tool.price);
+  
+  // ایجاد دکمه ادمین در صفحه جزئیات
+  setTimeout(createAdminButton, 1000);
 }
 
 // پرداخت واقعی
@@ -443,6 +586,11 @@ async function initiateStarsPayment(id, price) {
         document.getElementById('downloadBtn').style.display = 'block';
         document.getElementById('paymentStatus').textContent = 'پرداخت موفق! ابزار آماده دانلود است ✨';
         document.getElementById('paymentStatus').style.display = 'block';
+        
+        // فعال کردن دانلود
+        document.getElementById('downloadBtn').onclick = () => {
+          downloadTool(tool.folder);
+        };
       } else {
         document.getElementById('paymentStatus').textContent = 'پرداخت ناموفق بود.';
         document.getElementById('paymentStatus').style.display = 'block';
@@ -458,3 +606,41 @@ function downloadTool(folder) {
   const zipUrl = `https://github.com/aliki007788-ops/Golden-TMA-Pro/raw/main/tools/${folder}/${folder}.zip`;
   window.open(zipUrl, '_blank');
 }
+
+// بررسی مجدد ذرات هر 2 ثانیه برای اطمینان کامل
+setInterval(() => {
+  const canvas = document.getElementById('particles-js');
+  if (canvas && !canvas.querySelector('canvas')) {
+    console.log('Particles canvas missing, reinitializing...');
+    initParticles();
+  }
+}, 2000);
+
+// تابع برای ارتباط با API ادمین (در نسخه کامل)
+async function fetchAdminData(endpoint) {
+  try {
+    const response = await fetch(`/api/admin/${endpoint}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('admin_token')}`
+      }
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('Admin API error:', error);
+    return null;
+  }
+}
+
+// لاگ کنسول برای دیباگ
+console.log('Golden TMA Pro loaded successfully!');
+console.log('Tools available:', toolsData.length);
+console.log('Telegram WebApp:', Telegram.WebApp);
+
+// اجرای اولیه بعد از لود کامل
+window.addEventListener('load', function() {
+  console.log('Page fully loaded');
+  // دوباره ذرات رو چک کن
+  setTimeout(initParticles, 500);
+  // دکمه ادمین رو چک کن
+  setTimeout(createAdminButton, 1000);
+});
