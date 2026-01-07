@@ -1,36 +1,43 @@
-// main.js - Golden TMA Pro - Final Professional Edition
-// تمام ۴۹ ابزار واقعی با توضیح کامل، عملکرد، تصاویر و پرداخت واقعی
+// main.js - Golden TMA Pro - Ultimate Cinematic Particles Edition (Fixed for Desktop & Mobile)
 
+// آماده‌سازی TMA
 Telegram.WebApp.ready();
 Telegram.WebApp.expand();
 
-// ذرات نورانی طلایی سینمایی – سبک و درخشان در موبایل و دسکتاپ
+// تابع ذرات سینمایی – کاملاً بهینه، همیشه فعال و بدون مشکل
 function initParticles() {
+  if (!document.getElementById('particles-js')) return;
+
   const isMobile = window.innerWidth < 768;
 
   particlesJS('particles-js', {
     particles: {
-      number: { value: isMobile ? 80 : 150 },
+      number: { value: isMobile ? 70 : 140, density: { enable: true, value_area: 800 } },
       color: { value: '#FFD700' },
       shape: { type: 'circle' },
-      opacity: { value: isMobile ? 0.6 : 0.9, random: true, anim: { enable: true, speed: 1 } },
-      size: { value: isMobile ? 3 : 5, random: true },
-      line_linked: { enable: true, distance: isMobile ? 120 : 180, color: '#FFD700', opacity: 0.4, width: 1 },
-      move: { enable: true, speed: isMobile ? 2 : 4, random: true }
+      opacity: { value: isMobile ? 0.5 : 0.8, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1 } },
+      size: { value: isMobile ? 3 : 5, random: true, anim: { enable: true, speed: 40, size_min: 0.1 } },
+      line_linked: { enable: true, distance: isMobile ? 100 : 160, color: '#FFD700', opacity: 0.4, width: 1 },
+      move: { enable: true, speed: isMobile ? 2 : 4, direction: 'none', random: true, out_mode: 'out' }
     },
     interactivity: {
-      events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } },
-      modes: { repulse: { distance: 150 }, push: { particles_nb: 6 } }
+      detect_on: 'canvas',
+      events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+      modes: { repulse: { distance: isMobile ? 100 : 150, duration: 0.4 }, push: { particles_nb: 4 } }
     },
     retina_detect: true
   });
 }
 
+// لود اولیه
 initParticles();
 
+// بروزرسانی وقتی صفحه تغییر اندازه داد یا لود شد
+window.addEventListener('load', initParticles);
 window.addEventListener('resize', () => {
-  if (document.getElementById('particles-js')) {
-    document.getElementById('particles-js').innerHTML = '';
+  const canvas = document.getElementById('particles-js');
+  if (canvas) {
+    canvas.innerHTML = '';
     initParticles();
   }
 });
