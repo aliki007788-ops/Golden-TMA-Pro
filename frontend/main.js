@@ -6,135 +6,49 @@ Telegram.WebApp.expand();
 
 // تابع ذرات سینمایی – کاملاً بهینه و همیشه لود می‌شه
 function initParticles() {
-  // منتظر ماندن برای لود کامل DOM و کتابخانه particles.js
   if (typeof particlesJS === 'undefined') {
-    console.log('ParticlesJS library not loaded yet, retrying...');
     setTimeout(initParticles, 500);
     return;
   }
 
   const canvas = document.getElementById('particles-js');
   if (!canvas) {
-    console.log('Particles canvas not found, retrying...');
     setTimeout(initParticles, 500);
     return;
   }
 
-  // اگر ذرات از قبل لود شده، پاکسازی کن
-  if (window.particlesInstance) {
-    window.particlesInstance.destroy();
-  }
-
   const isMobile = window.innerWidth < 768;
 
-  // ذرات طلایی سینمایی
-  window.particlesInstance = particlesJS('particles-js', {
+  particlesJS('particles-js', {
     particles: {
-      number: { 
-        value: isMobile ? 70 : 140, 
-        density: { 
-          enable: true, 
-          value_area: 800 
-        } 
-      },
-      color: { 
-        value: '#FFD700' 
-      },
-      shape: { 
-        type: 'circle' 
-      },
-      opacity: { 
-        value: isMobile ? 0.5 : 0.8, 
-        random: true, 
-        anim: { 
-          enable: true, 
-          speed: 1, 
-          opacity_min: 0.1 
-        } 
-      },
-      size: { 
-        value: isMobile ? 3 : 5, 
-        random: true, 
-        anim: { 
-          enable: true, 
-          speed: 40, 
-          size_min: 0.1 
-        } 
-      },
-      line_linked: { 
-        enable: true, 
-        distance: isMobile ? 100 : 160, 
-        color: '#FFD700', 
-        opacity: 0.4, 
-        width: 1 
-      },
-      move: { 
-        enable: true, 
-        speed: isMobile ? 2 : 4, 
-        direction: 'none', 
-        random: true, 
-        out_mode: 'out',
-        bounce: false
-      }
+      number: { value: isMobile ? 70 : 140, density: { enable: true, value_area: 800 } },
+      color: { value: '#FFD700' },
+      shape: { type: 'circle' },
+      opacity: { value: isMobile ? 0.5 : 0.8, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1 } },
+      size: { value: isMobile ? 3 : 5, random: true, anim: { enable: true, speed: 40, size_min: 0.1 } },
+      line_linked: { enable: true, distance: isMobile ? 100 : 160, color: '#FFD700', opacity: 0.4, width: 1 },
+      move: { enable: true, speed: isMobile ? 2 : 4, direction: 'none', random: true, out_mode: 'out' }
     },
     interactivity: {
       detect_on: 'canvas',
-      events: { 
-        onhover: { 
-          enable: true, 
-          mode: 'repulse' 
-        }, 
-        onclick: { 
-          enable: true, 
-          mode: 'push' 
-        }, 
-        resize: true 
-      },
-      modes: { 
-        repulse: { 
-          distance: isMobile ? 100 : 150, 
-          duration: 0.4 
-        }, 
-        push: { 
-          particles_nb: 4 
-        } 
-      }
+      events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+      modes: { repulse: { distance: isMobile ? 100 : 150, duration: 0.4 }, push: { particles_nb: 4 } }
     },
     retina_detect: true
   });
-  
-  console.log('Golden cinematic particles loaded successfully! ✨');
 }
 
-// لود اولیه وقتی صفحه کاملاً بارگذاری شد
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(initParticles, 100);
-  });
-} else {
-  setTimeout(initParticles, 100);
-}
+// لود اولیه با تاخیر برای اطمینان
+setTimeout(initParticles, 100);
 
 // بروزرسانی وقتی صفحه تغییر اندازه داد
-let resizeTimeout;
 window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    if (window.particlesInstance) {
-      window.particlesInstance.destroy();
-      initParticles();
-    }
-  }, 250);
-});
-
-// بررسی مجدد ذرات هر 2 ثانیه برای اطمینان کامل
-setInterval(() => {
   const canvas = document.getElementById('particles-js');
-  if (canvas && !canvas.querySelector('canvas')) {
-    console.log('Particles canvas missing, reinitializing...');
+  if (canvas) {
+    canvas.innerHTML = '';
     initParticles();
   }
-}, 2000);
+});
 
 // تمام ۴۹ ابزار واقعی – با توضیح کامل انگلیسی، عملکرد، ویژگی‌ها و ۴ تصویر placeholder حرفه‌ای
 const toolsData = [
@@ -425,6 +339,12 @@ const toolsData = [
     "https://via.placeholder.com/800x600/000000/FFD700?text=Code+Splitting",
     "https://via.placeholder.com/800x600/000000/FFD700?text=Tree+Shaking",
     "https://via.placeholder.com/800x600/000000/FFD700?text=Optimization"
+  ] },
+  { id: 49, name: "TMA Starter Pro 060", desc: "Ultimate starter kit for professional TMA development with all essential tools.", price: 999, tier: "premium", folder: "TMA-Starter-Pro-060", images: [
+    "https://via.placeholder.com/800x600/000000/FFD700?text=Starter+Kit+Dashboard",
+    "https://via.placeholder.com/800x600/000000/FFD700?text=Development+Tools",
+    "https://via.placeholder.com/800x600/000000/FFD700?text=Template+Collection",
+    "https://via.placeholder.com/800x600/000000/FFD700?text=Advanced+Features"
   ] }
 ];
 
